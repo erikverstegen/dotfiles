@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+
+# Define ANSI shortcuts.
+FONT_UNDERLINE_OFF="\33[24m"
+FONT_UNDERLINE_ON="\33[4m"
+FONT_ITALIC_OFF="\33[23m"
+FONT_ITALIC_ON="\33[3m"
+FONT_BOLD_OFF="\33[22m"
+FONT_BOLD_ON="\33[1m"
+
+ANSI_RESET="\33[0m"
+
+COLOR_MAGENTA="\33[35m"
+COLOR_YELLOW="\33[33m"
+COLOR_WHITE="\33[37m"
+COLOR_BLACK="\33[30m"
+COLOR_GREEN="\33[32m"
+COLOR_BLUE="\33[34m"
+COLOR_CYAN="\33[36m"
+COLOR_RED="\33[31m"
+
+# Define global variables.
+DOTFILES_TARBALL_PATH="https://github.com/erikverstegen/dotfiles/tarball/master"
+DOTFILES_GIT_REMOTE="git@github.com:erikverstegen/dotfiles.git"
+DOTFILES_DIRECTORY="${HOME}/.dotfiles"
+
+# Download the .dotfiles from the Git repository, if the directory does not
+# yet exist.
+if [[ ! -d ${DOTFILES_DIRECTORY} ]]; then
+    printf "\33[34mDownloading \33[1m.dotfiles\33[22m...\33[0m\n"
+
+    # Create the .dotfiles directory.
+    mkdir -p ${DOTFILES_DIRECTORY}
+
+    # Download the tarball.
+    curl -fsSLo ${HOME}/.dotfiles.tar.gz ${DOTFILES_TARBALL_PATH}
+
+    # Extract the tarball.
+    tar -xf ${HOME}/.dotfiles.tar.gz --strip-components 1 -C ${DOTFILES_DIRECTORY}
+
+    # Delete the tarball.
+    rm -rf ${HOME}/.dotfiles.tar.gz
+
+    printf "\33[32mFinished downloading \33[22m.dotfiles\33[0m.\n"
+fi
+
+# Change the current directory to the .dotfiles directory.
+cd ${DOTFILES_DIRECTORY}
+
+# Display help information if needed.
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    printf "${COLOR_GREEN}macOS .dotfiles${ANSI_RESET} - ${COLOR_YELLOW}Erik Verstegen${ANSI_RESET}\n\n"
+
+    printf "${COLOR_YELLOW}Usage:${ANSI_RESET}\n"
+    printf "  $(basename "$0") [options]\n\n"
+
+    printf "${COLOR_YELLOW}Options:${ANSI_RESET}\n"
+    printf "  ${COLOR_GREEN}-h, --help${ANSI_RESET} Display this help information\n\n"
+
+    printf "Additional documentation can be found at ${FONT_UNDERLINE_ON}${FONT_BOLD_ON}${COLOR_BLUE}https://github.com/erikverstegen/dotfiles${ANSI_RESET}\n\n"
+
+    printf "Copyright (c) Erik Verstegen\n"
+    printf "Licensed under the MIT license\n"
+
+    exit 0
+fi
+
+printf "${COLOR_BLUE}Installing ${FONT_BOLD_ON}.dotfiles${FONT_BOLD_OFF}...${ANSI_RESET}\n"
+
+# Test whether the user is running a supported operating system.
+if [ -f "./install/$(uname).sh" ]; then
+    source ./install/$(uname).sh
+else
+    printf "${COLOR_RED}Running on an unsupported operating system (${FONT_BOLD_ON}$(uname)${FONT_BOLD_OFF}). Aborting.${ANSI_RESET}\n"
+
+    exit 1
+fi
+
+printf "${COLOR_GREEN}Finished installing ${FONT_BOLD_ON}.dotfiles${FONT_BOLD_OFF}.${ANSI_RESET}\n"
