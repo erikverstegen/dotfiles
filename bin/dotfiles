@@ -29,16 +29,9 @@ DOTFILES_DIRECTORY="${HOME}/.dotfiles"
 if [[ ! -d ${DOTFILES_DIRECTORY} ]]; then
     printf "\33[34mDownloading \33[1m.dotfiles\33[22m...\33[0m\n"
 
-    # Create the .dotfiles directory.
     mkdir -p ${DOTFILES_DIRECTORY}
-
-    # Download the tarball.
     curl -fsSLo ${HOME}/.dotfiles.tar.gz ${DOTFILES_TARBALL_PATH}
-
-    # Extract the tarball.
     tar -xf ${HOME}/.dotfiles.tar.gz --strip-components 1 -C ${DOTFILES_DIRECTORY}
-
-    # Delete the tarball.
     rm -rf ${HOME}/.dotfiles.tar.gz
 
     printf "\33[32mFinished downloading \33[1m.dotfiles\33[22m.\33[0m\n"
@@ -55,9 +48,10 @@ if [[ "$1" == "-h" || "$1" == "--help" ]]; then
     printf "  $(basename "$0") [options]\n\n"
 
     printf "${COLOR_YELLOW}Options:${ANSI_RESET}\n"
-    printf "  ${COLOR_GREEN}-h, --help${ANSI_RESET} Display this help information\n\n"
+    printf "  ${COLOR_GREEN}-h, --help${ANSI_RESET}    Display this help information\n"
+    printf "  ${COLOR_GREEN}    --no-sync${ANSI_RESET} Suppress pulling from the remote repository\n\n"
 
-    printf "Additional documentation can be found at ${FONT_UNDERLINE_ON}${FONT_BOLD_ON}${COLOR_BLUE}https://github.com/erikverstegen/dotfiles${ANSI_RESET}\n\n"
+    printf "Documentation can be found at ${FONT_UNDERLINE_ON}${FONT_BOLD_ON}${COLOR_BLUE}https://github.com/erikverstegen/dotfiles${ANSI_RESET}.\n\n"
 
     printf "Copyright (c) Erik Verstegen\n"
     printf "Licensed under the MIT license\n"
@@ -65,7 +59,35 @@ if [[ "$1" == "-h" || "$1" == "--help" ]]; then
     exit 0
 fi
 
+# Test for the different program flags.
+for flag in $@
+do
+    case $flag in
+        --no-sync) no_sync=true ;;
+        -*|--*) printf "${COLOR_RED}Unknown flag ${FONT_BOLD_ON}${flag}${FONT_BOLD_OFF}.${ANSI_RESET}\n" && exit 1 ;;
+    esac
+done
+
 printf "${COLOR_BLUE}Installing ${FONT_BOLD_ON}.dotfiles${FONT_BOLD_OFF}...${ANSI_RESET}\n"
+
+if ! $(git rev-parse --is-inside-work-tree &> /dev/null); then
+    printf "${COLOR_BLUE}Initializing Git repository...${ANSI_RESET}\n"
+
+    git init
+    git remote add origin ${DOTFILES_GIT_REMOTE}
+    git fetch origin master
+    git reset --hard FETCH_HEAD
+    git clean -fd
+fi
+
+if [[ $no_sync ]]; then
+    printf "${COLOR_YELLOW}Skipping sync with remote Git repository...${ANSI_RESET}\n"
+else
+    printf "${COLOR_BLUE}Syncing with remote Git repository...${ANSI_RESET}\n"
+
+    git pull --rebase origin master
+    git submodule update --recursive --init --quiet
+fi
 
 # Test whether the user is running a supported operating system.
 if [ -f "./install/$(uname).sh" ]; then
