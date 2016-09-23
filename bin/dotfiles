@@ -41,7 +41,7 @@ if [[ ! -d ${DOTFILES_DIRECTORY} ]]; then
     # Delete the tarball.
     rm -rf ${HOME}/.dotfiles.tar.gz
 
-    printf "\33[32mFinished downloading \33[22m.dotfiles\33[0m.\n"
+    printf "\33[32mFinished downloading \33[1m.dotfiles\33[22m.\33[0m\n"
 fi
 
 # Change the current directory to the .dotfiles directory.
