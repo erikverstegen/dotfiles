@@ -27,14 +27,14 @@ DOTFILES_DIRECTORY="${HOME}/.dotfiles"
 # Download the .dotfiles from the Git repository, if the directory does not
 # yet exist.
 if [[ ! -d ${DOTFILES_DIRECTORY} ]]; then
-    printf "\33[34mDownloading \33[1m.dotfiles\33[22m...\33[0m\n"
+    printf "${COLOR_BLUE}Downloading ${FONT_BOLD_ON}.dotfiles${FONT_BOLD_OFF}...${ANSI_RESET}\n"
 
     mkdir -p ${DOTFILES_DIRECTORY}
     curl -fsSLo ${HOME}/.dotfiles.tar.gz ${DOTFILES_TARBALL_PATH}
     tar -xf ${HOME}/.dotfiles.tar.gz --strip-components 1 -C ${DOTFILES_DIRECTORY}
     rm -rf ${HOME}/.dotfiles.tar.gz
 
-    printf "\33[32mFinished downloading \33[1m.dotfiles\33[22m.\33[0m\n"
+    printf "${COLOR_GREEN}Finished downloading ${FONT_BOLD_ON}.dotfiles${FONT_BOLD_OFF}.${ANSI_RESET}\n"
 fi
 
 # Change the current directory to the .dotfiles directory.
@@ -42,14 +42,14 @@ cd ${DOTFILES_DIRECTORY}
 
 # Display help information if needed.
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
-    printf "${COLOR_GREEN}macOS .dotfiles${ANSI_RESET} - ${COLOR_YELLOW}Erik Verstegen${ANSI_RESET}\n\n"
+    printf "${COLOR_GREEN}macOS .dotfiles${ANSI_RESET}\n\n"
 
     printf "${COLOR_YELLOW}Usage:${ANSI_RESET}\n"
     printf "  $(basename "$0") [options]\n\n"
 
     printf "${COLOR_YELLOW}Options:${ANSI_RESET}\n"
-    printf "  ${COLOR_GREEN}-h, --help${ANSI_RESET}    Display this help information\n"
-    printf "  ${COLOR_GREEN}    --no-sync${ANSI_RESET} Suppress pulling from the remote repository\n\n"
+    printf "  ${COLOR_GREEN}-h, --help${ANSI_RESET}    Display this help information.\n"
+    printf "  ${COLOR_GREEN}    --no-sync${ANSI_RESET} Suppress pulling from the remote repository.\n\n"
 
     printf "Documentation can be found at ${FONT_UNDERLINE_ON}${FONT_BOLD_ON}${COLOR_BLUE}https://github.com/erikverstegen/dotfiles${ANSI_RESET}.\n\n"
 
@@ -69,6 +69,12 @@ do
 done
 
 printf "${COLOR_BLUE}Installing ${FONT_BOLD_ON}.dotfiles${FONT_BOLD_OFF}...${ANSI_RESET}\n"
+
+if [[ "$(uname)" == "Darwin" ]]; then
+    printf "${COLOR_BLUE}Running on macOS...${ANSI_RESET}\n"
+
+    source ./install/darwin/xcode_tools.sh
+fi
 
 if ! $(git rev-parse --is-inside-work-tree &> /dev/null); then
     printf "${COLOR_BLUE}Initializing Git repository...${ANSI_RESET}\n"
