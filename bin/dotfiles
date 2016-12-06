@@ -1,107 +1,94 @@
 #!/usr/bin/env bash
 
-# Define ANSI shortcuts.
-FONT_UNDERLINE_OFF="\33[24m"
-FONT_UNDERLINE_ON="\33[4m"
-FONT_ITALIC_OFF="\33[23m"
-FONT_ITALIC_ON="\33[3m"
-FONT_BOLD_OFF="\33[22m"
-FONT_BOLD_ON="\33[1m"
+info() {
+    if [[ ! $quiet ]]; then
+        printf "\33[34m${1}\33[0m\n"
+    fi
+}
 
-ANSI_RESET="\33[0m"
+success() {
+    if [[ ! $quiet ]]; then
+        printf "\33[32m${1}\33[0m\n"
+    fi
+}
 
-COLOR_MAGENTA="\33[35m"
-COLOR_YELLOW="\33[33m"
-COLOR_WHITE="\33[37m"
-COLOR_BLACK="\33[30m"
-COLOR_GREEN="\33[32m"
-COLOR_BLUE="\33[34m"
-COLOR_CYAN="\33[36m"
-COLOR_RED="\33[31m"
+error() {
+    printf "\33[31mError: ${1}\33[0m\n"
+}
 
-# Define global variables.
-DOTFILES_TARBALL_PATH="https://github.com/erikverstegen/dotfiles/tarball/master"
-DOTFILES_GIT_REMOTE="git@github.com:erikverstegen/dotfiles.git"
-DOTFILES_DIRECTORY="${HOME}/.dotfiles"
+# Clone the dotfiles from GitHub if the dotfiles directory does not exist.
+if [[ ! -d "${HOME}/.dotfiles" ]]; then
+    info "Cloning the dotfiles..."
 
-# Download the .dotfiles from the Git repository, if the directory does not
-# yet exist.
-if [[ ! -d ${DOTFILES_DIRECTORY} ]]; then
-    printf "${COLOR_BLUE}Downloading ${FONT_BOLD_ON}.dotfiles${FONT_BOLD_OFF}...${ANSI_RESET}\n"
+    git clone -q https://github.com/erikverstegen/dotfiles.git "${HOME}/.dotfiles"
 
-    mkdir -p ${DOTFILES_DIRECTORY}
-    curl -fsSLo ${HOME}/.dotfiles.tar.gz ${DOTFILES_TARBALL_PATH}
-    tar -xf ${HOME}/.dotfiles.tar.gz --strip-components 1 -C ${DOTFILES_DIRECTORY}
-    rm -rf ${HOME}/.dotfiles.tar.gz
-
-    printf "${COLOR_GREEN}Finished downloading ${FONT_BOLD_ON}.dotfiles${FONT_BOLD_OFF}.${ANSI_RESET}\n"
+    success "Finished cloning the dotfiles."
 fi
 
-# Change the current directory to the .dotfiles directory.
-cd ${DOTFILES_DIRECTORY}
+cd "${HOME}/.dotfiles"
 
-# Display help information if needed.
-if [[ "$1" == "-h" || "$1" == "--help" ]]; then
-    printf "${COLOR_GREEN}macOS .dotfiles${ANSI_RESET}\n\n"
-
-    printf "${COLOR_YELLOW}Usage:${ANSI_RESET}\n"
-    printf "  $(basename "$0") [options]\n\n"
-
-    printf "${COLOR_YELLOW}Options:${ANSI_RESET}\n"
-    printf "  ${COLOR_GREEN}-h, --help${ANSI_RESET}    Display this help information.\n"
-    printf "  ${COLOR_GREEN}    --no-sync${ANSI_RESET} Suppress pulling from the remote repository.\n\n"
-
-    printf "Documentation can be found at ${FONT_UNDERLINE_ON}${FONT_BOLD_ON}${COLOR_BLUE}https://github.com/erikverstegen/dotfiles${ANSI_RESET}.\n\n"
-
-    printf "Copyright (c) Erik Verstegen\n"
-    printf "Licensed under the MIT license\n"
-
-    exit 0
-fi
-
-# Test for the different program flags.
-for flag in $@
+# Test for command line arguments.
+for arg in $@
 do
-    case $flag in
-        --no-sync) no_sync=true ;;
-        -*|--*) printf "${COLOR_RED}Unknown flag ${FONT_BOLD_ON}${flag}${FONT_BOLD_OFF}.${ANSI_RESET}\n" && exit 1 ;;
+    case $arg in
+        -h|--help)
+            printf "Usage:\n"
+            printf "  $(basename "$0") [options]\n\n"
+
+            printf "Options:\n"
+            printf "  -h, --help    Display this help information.\n"
+            printf "      --no-sync Don't sync with the remote repository.\n\n"
+            printf "  -q, --quiet   Don't display any information."
+
+            printf "Documentation can be found at https://github.com/erikverstegen/dotfiles.\n\n"
+
+            printf "Copyright (c) Erik Verstegen\n"
+            printf "Licensed under the MIT license\n"
+
+            exit 0
+        ;;
+
+        --no-sync)
+            no_sync=true
+        ;;
+
+        -q|--quiet)
+            quiet=true
+        ;;
+
+        -*|--*)
+            error "Unrecognized argument \"${arg}\"."
+
+            exit 1
+        ;;
     esac
 done
 
-printf "${COLOR_BLUE}Installing ${FONT_BOLD_ON}.dotfiles${FONT_BOLD_OFF}...${ANSI_RESET}\n"
+info "Installing the dotfiles..."
 
 if [[ "$(uname)" == "Darwin" ]]; then
-    printf "${COLOR_BLUE}Running on macOS...${ANSI_RESET}\n"
-
     source ./install/darwin/xcode_tools.sh
 fi
 
-if ! $(git rev-parse --is-inside-work-tree &> /dev/null); then
-    printf "${COLOR_BLUE}Initializing Git repository...${ANSI_RESET}\n"
+if [[ ! $no_sync ]]; then
+    info "Syncing with the remote Git repository..."
 
-    git init
-    git remote add origin ${DOTFILES_GIT_REMOTE}
-    git fetch origin master
-    git reset --hard FETCH_HEAD
-    git clean -fd
-fi
+    # git pull --rebase origin master
+    # git submodule update --recursive --init --quiet
 
-if [[ $no_sync ]]; then
-    printf "${COLOR_YELLOW}Skipping sync with remote Git repository...${ANSI_RESET}\n"
-else
-    printf "${COLOR_BLUE}Syncing with remote Git repository...${ANSI_RESET}\n"
-
-    git pull --rebase origin master
-    git submodule update --recursive --init --quiet
+    success "Finished syninc with the remote Git repository."
 fi
 
 # Test whether the user is running a supported operating system.
 if [ -f "./install/$(uname).sh" ]; then
     source ./install/$(uname).sh
 else
-    printf "${COLOR_RED}Running on an unsupported operating system (${FONT_BOLD_ON}$(uname)${FONT_BOLD_OFF}). Aborting.${ANSI_RESET}\n"
+    error "Running on an unsupported operating system ($(uname)). Aborting."
 
     exit 1
 fi
 
-printf "${COLOR_GREEN}Finished installing ${FONT_BOLD_ON}.dotfiles${FONT_BOLD_OFF}.${ANSI_RESET}\n"
+success "Finished installing the dotfiles."
+
+# Return to the original directory.
+cd $OLDPWD
