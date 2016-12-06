@@ -66,16 +66,18 @@ done
 
 info "Installing the dotfiles..."
 
+# Install the Xcode Command Line Tools when running on macOS.
 if [[ "$(uname)" == "Darwin" ]]; then
     source ./install/darwin/xcode_tools.sh
 fi
 
+# Pull from the remote Git repository.
 if [[ ! $no_sync ]]; then
     info "Syncing with the remote Git repository..."
 
     git pull -qr origin master
 
-    success "Finished syninc with the remote Git repository."
+    success "Finished syncing with the remote Git repository."
 fi
 
 # Test whether the user is running a supported operating system.

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 install() {
+    # Test if the requested package is not installed.
     if ! brew ls --versions "${1}" > /dev/null; then
         info "Installing \"${1}\"..."
 
