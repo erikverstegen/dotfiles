@@ -16,13 +16,17 @@ error() {
     printf "\33[31mError: ${1}\33[0m\n"
 }
 
-# Clone the dotfiles from GitHub if the dotfiles directory does not exist.
-if [[ ! -d "${HOME}/.dotfiles" ]]; then
-    info "Cloning the dotfiles..."
+# Download the dotfiles from the Git repository, if the directory does not
+# exist.
+if [[ ! -d ${DOTFILES_DIRECTORY} ]]; then
+    info "Downloading the dotfiles..."
 
-    git clone -q https://github.com/erikverstegen/dotfiles.git "${HOME}/.dotfiles"
+    mkdir -p "${HOME}/.dotfiles"
+    curl -fsSLo "${HOME}/.dotfiles.tar.gz" "https://github.com/erikverstegen/dotfiles/tarball/master"
+    tar -xf "${HOME}/.dotfiles.tar.gz" --strip-components 1 -C "${HOME}/.dotfiles"
+    rm -rf "${HOME}/.dotfiles.tar.gz"
 
-    success "Finished cloning the dotfiles."
+    success "Finished downloading the dotfiles."
 fi
 
 cd "${HOME}/.dotfiles"
@@ -69,6 +73,19 @@ info "Installing the dotfiles..."
 # Install the Xcode Command Line Tools when running on macOS.
 if [[ "$(uname)" == "Darwin" ]]; then
     source ./install/darwin/xcode_tools.sh
+fi
+
+# Initialize the Git repository if necessary.
+if ! $(git rev-parse --is-inside-work-tree &> /dev/null); then
+    info "Initializing the Git repository..."
+
+    git init
+    git remote add origin ${DOTFILES_GIT_REMOTE}
+    git fetch origin master
+    git reset --hard FETCH_HEAD
+    git clean -fd
+
+    success "Finished initializing the Git repository."
 fi
 
 # Pull from the remote Git repository.
