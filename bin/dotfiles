@@ -73,8 +73,7 @@ fi
 if [[ ! $no_sync ]]; then
     info "Syncing with the remote Git repository..."
 
-    # git pull --rebase origin master
-    # git submodule update --recursive --init --quiet
+    git pull -qr origin master
 
     success "Finished syninc with the remote Git repository."
 fi
