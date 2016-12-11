@@ -16,6 +16,11 @@ error() {
     printf "\33[31mError: ${1}\33[0m\n"
 }
 
+# Creates or replaces a symbolic link.
+link() {
+    ln -fs "${HOME}/.dotfiles/${1}" "${HOME}/${2}"
+}
+
 # Download the dotfiles from the Git repository, if the directory does not
 # exist.
 if [[ ! -d ${DOTFILES_DIRECTORY} ]]; then
@@ -97,6 +102,13 @@ if [[ ! $no_sync ]]; then
     success "Finished syncing with the remote Git repository."
 fi
 
+# Create the symbolic links.
+info "Creating the symbolic links..."
+
+link "zsh/.zshrc" ".zshrc"
+
+success "Finished creating the symbolic links."
+
 # Test whether the user is running a supported operating system.
 if [ -f "./install/$(uname).sh" ]; then
     source ./install/$(uname).sh
@@ -104,6 +116,15 @@ else
     error "Running on an unsupported operating system ($(uname)). Aborting."
 
     exit 1
+fi
+
+# Change the shell to Zsh.
+if [ ! "$SHELL" == "$(which zsh)" ]; then
+    info "Changing the shell to Zsh..."
+
+    chsh -s $(which zsh)
+
+    success "Finished changing the shell to Zsh."
 fi
 
 success "Finished installing the dotfiles."

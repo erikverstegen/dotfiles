@@ -22,12 +22,11 @@ fi
 
 info "Installing Homebrew packages..."
 
-# CLI tools.
 install ack
 install tree
 install wget
 
-# Development tools.
 install git
+install zsh
 
 success "Finished installing Homebrew packages."
