@@ -122,6 +122,16 @@ fi
 if [ ! "$SHELL" == "$(which zsh)" ]; then
     info "Changing the shell to Zsh..."
 
+    if [[ "$(uname)" == "Darwin" ]]; then
+        if [[ ! "$(cat /etc/shells | grep $(which zsh))" ]]; then
+            info "Adding \"$(which zsh)\" to \"/etc/shells\"..."
+
+            command -v zsh | sudo tee -a /etc/shells
+
+            success "Finished adding \"$(which zsh)\" to \"/etc/shells\"."
+        fi
+    fi
+
     chsh -s $(which zsh)
 
     success "Finished changing the shell to Zsh."
