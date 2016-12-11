@@ -1,5 +1,4 @@
-# export DOTFILES="${HOME}/.dotfiles"
-export DOTFILES="${HOME}/Development/dotfiles"
+export DOTFILES="${HOME}/.dotfiles"
 export ZSH="${DOTFILES}/zsh"
 
 # Load all the *.zsh files in the dotfiles directory.
