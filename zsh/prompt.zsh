@@ -24,7 +24,7 @@ git_dirty() {
 #  * If there are changes that have been committed but not yet pushed, display a
 #    ⇡ (needs pushing).
 git_arrows() {
-    # Test if there an upstream is configured.
+    # Test if there is an upstream configured.
     command git rev-parse --abbrev-ref @'{u}' &>/dev/null || return
 
     arrow_status="$(command git rev-list --left-right --count HEAD...@'{u}' 2>/dev/null)"

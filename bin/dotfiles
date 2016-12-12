@@ -89,6 +89,7 @@ if ! $(git rev-parse --is-inside-work-tree &> /dev/null); then
     git fetch origin master
     git reset --hard FETCH_HEAD
     git clean -fd
+    git submodule update --init --recursive
 
     success "Finished initializing the Git repository."
 fi
@@ -98,6 +99,7 @@ if [[ ! $no_sync ]]; then
     info "Syncing with the remote Git repository..."
 
     git pull -qr origin master
+    git submodule update --init --recursive
 
     success "Finished syncing with the remote Git repository."
 fi
@@ -122,14 +124,12 @@ fi
 if [ ! "$SHELL" == "$(which zsh)" ]; then
     info "Changing the shell to Zsh..."
 
-    if [[ "$(uname)" == "Darwin" ]]; then
-        if [[ ! "$(cat /etc/shells | grep $(which zsh))" ]]; then
-            info "Adding \"$(which zsh)\" to \"/etc/shells\"..."
+    if [[ "$(uname)" == "Darwin" && ! "$(cat /etc/shells | grep $(which zsh))" ]]; then
+        info "Adding \"$(which zsh)\" to \"/etc/shells\"..."
 
-            command -v zsh | sudo tee -a /etc/shells
+        command -v zsh | sudo tee -a /etc/shells
 
-            success "Finished adding \"$(which zsh)\" to \"/etc/shells\"."
-        fi
+        success "Finished adding \"$(which zsh)\" to \"/etc/shells\"."
     fi
 
     chsh -s $(which zsh)
