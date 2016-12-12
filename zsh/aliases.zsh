@@ -1,3 +1,6 @@
+# Clear terminal scroll-back.
+alias clear="clear && printf '\e[3J'"
+
 # Get the week number.
 alias week="date +%V"
 
