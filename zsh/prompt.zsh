@@ -1,5 +1,6 @@
 # Inspired by: https://github.com/nicknisi/dotfiles/blob/master/zsh/prompt.zsh
 
+# Needed for getting information of the Git repository.
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:git*' use-simple true
@@ -7,21 +8,15 @@ zstyle ':vcs_info:git*' max-exports 2
 zstyle ':vcs_info:git*' formats ' %b' 'x%R'
 zstyle ':vcs_info:git*' actionformats ' %b|%a' 'x%R'
 
+# Load the colors.
 autoload colors && colors
 
-# Display tags if the current Git branch is dirty or not.
+# Display a tag if the current Git branch is dirty or not.
 git_dirty() {
-    # Test if we are in a Git repository.
-    command git rev-parse --is-inside-work-tree &>/dev/null || return
-
     # Test if the current Git branch is dirty or not.
     command git diff --quiet --ignore-submodules HEAD &>/dev/null;
 
-    if [[ $? -eq 1 ]]; then
-        echo "%F{1}✗"
-    else
-        echo "%F{2}✔"
-    fi
+    (( $? == 1 )) && echo "%F{001}✗" || echo "%F{002}✔"
 }
 
 # Display status arrow for the current Git repository.
@@ -32,12 +27,10 @@ git_arrows() {
     # Test if there an upstream is configured.
     command git rev-parse --abbrev-ref @'{u}' &>/dev/null || return
 
-    local arrows=""
-
     arrow_status="$(command git rev-list --left-right --count HEAD...@'{u}' 2>/dev/null)"
 
     # Do nothing if the command failed.
-    (( !$? )) || return
+    (( ! $? )) || return
 
     # Split on tab characters.
     arrow_status=(${(ps:\t:)arrow_status})
@@ -45,14 +38,9 @@ git_arrows() {
     local right=${arrow_status[2]}
     local left=${arrow_status[1]}
 
-    if [[ ${left:-0} > 0 && ${right:-0} > 0 ]]; then
-        arrows=" %F{003}⇣ %F{004}⇡"
-    else
-        (( ${right:-0} > 0 )) && arrows+=" %F{003}⇣"
-        (( ${left:-0} > 0 )) && arrows+=" %F{004}⇡"
-    fi
-
-    echo $arrows
+    (( ${left:-0} > 0 && ${right:-0} > 0 )) && echo " %F{003}⇣ %F{004}⇡" && return
+    (( ${right:-0} > 0 )) && echo " %F{003}⇣"
+    (( ${left:-0} > 0 )) && echo " %F{004}⇡"
 }
 
 # Display information about the current Git repository.
@@ -65,11 +53,7 @@ git_info() {
 
 # Display information about suspended jobs.
 suspended_jobs() {
-    local suspended_jobs
-
-    suspended_jobs=$(jobs 2>/dev/null | tail -n 1)
-
-    if [[ ! $suspended_jobs == "" ]]; then
+    if [[ ! "$(jobs 2>/dev/null | tail -n 1)" == "" ]]; then
         echo " %F{005}✱"
     fi
 }
@@ -78,6 +62,11 @@ suspended_jobs() {
 precmd() {
     vcs_info
 
+    # Make the macOS terminal remember the current directory when opening a new
+    # tab.
+    print -Pn "\e]2; %~/ \a"
+
+    # Display the information.
     print -P "\n%F{117}%n@%m%F{241} in%F{007} ${PWD/#$HOME/~}`git_info``suspended_jobs`"
 }
 
