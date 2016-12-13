@@ -105,6 +105,7 @@ fi
 # Create the symbolic links.
 info "Creating the symbolic links..."
 
+link "tmux/.tmux.conf" ".tmux.conf"
 link "zsh/.zshrc" ".zshrc"
 
 success "Finished creating the symbolic links."

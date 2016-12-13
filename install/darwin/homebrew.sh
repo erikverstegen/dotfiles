@@ -28,5 +28,7 @@ install wget
 
 install git
 install zsh
+install tmux
+install reattach-to-user-namespace
 
 success "Finished installing Homebrew packages."
