@@ -23,7 +23,7 @@ link() {
 
 # Download the dotfiles from the Git repository, if the directory does not
 # exist.
-if [[ ! -d ${DOTFILES_DIRECTORY} ]]; then
+if [[ ! -d "${HOME}/.dotfiles" ]]; then
     info "Downloading the dotfiles..."
 
     mkdir -p "${HOME}/.dotfiles"
