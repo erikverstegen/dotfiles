@@ -85,7 +85,7 @@ if ! $(git rev-parse --is-inside-work-tree &> /dev/null); then
     info "Initializing the Git repository..."
 
     git init
-    git remote add origin "git@github.com:erikverstegen/dotfiles.git"
+    git remote add origin "https://github.com/erikverstegen/dotfiles.git"
     git fetch origin master
     git reset --hard FETCH_HEAD
     git clean -fd
