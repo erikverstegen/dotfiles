@@ -46,8 +46,8 @@ do
 
             printf "Options:\n"
             printf "  -h, --help    Display this help information.\n"
-            printf "      --no-sync Don't sync with the remote repository.\n\n"
-            printf "  -q, --quiet   Don't display any information."
+            printf "      --no-sync Don't sync with the remote repository.\n"
+            printf "  -q, --quiet   Don't display any information.\n\n"
 
             printf "Documentation can be found at https://github.com/erikverstegen/dotfiles.\n\n"
 
