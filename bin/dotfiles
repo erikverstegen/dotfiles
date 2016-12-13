@@ -125,7 +125,7 @@ if [ ! "$SHELL" == "$(which zsh)" ]; then
     if [[ "$(uname)" == "Darwin" && ! "$(cat /etc/shells | grep $(which zsh))" ]]; then
         info "Adding \"$(which zsh)\" to \"/etc/shells\"..."
 
-        command -v zsh | sudo tee -a /etc/shells
+        command -v zsh | sudo tee -a /etc/shells &> /dev/null
 
         success "Finished adding \"$(which zsh)\" to \"/etc/shells\"."
     fi
