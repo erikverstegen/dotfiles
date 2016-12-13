@@ -67,7 +67,6 @@ end tell
 EOD
 
     success "Finished changing the Terminal theme to Base16 Ocean."
-
 fi
 
 # Turn off the brackets around the executed commands.
