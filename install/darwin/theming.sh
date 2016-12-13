@@ -9,9 +9,14 @@ if [[ ! "$(ls ~/Library/Fonts | grep 'Roboto Mono Nerd Font Complete.ttf')" ]]; 
     success "Finished installing Roboto Mono font."
 fi
 
-# Test if the current Terminal theme is not Base16 Ocean Dark.
-if [[ "$(defaults read com.apple.Terminal "Default Window Settings")" != "base16-ocean-dark" ]]; then
-    # Change the Terminal theme to Base16 Ocean Dark.
+# Sleep for one second in order to get the font working in the Terminal.
+sleep 1
+
+# Test if the current Terminal theme is not Base16 Ocean.
+if [[ "$(defaults read com.apple.Terminal "Default Window Settings")" != "base16-ocean" ]]; then
+    info "Changing the Terminal theme to Base16 Ocean..."
+
+    # Change the Terminal theme to Base16 Ocean.
     #
     # Credit: https://github.com/mathiasbynens/dotfiles/blob/master/.macos
     osascript <<EOD
@@ -22,7 +27,7 @@ tell application "Terminal"
     local allOpenedWindows
     local windowId
 
-    set themeName to "base16-ocean-dark"
+    set themeName to "base16-ocean"
 
     (* Store the IDs of all the open Terminal windows. *)
     set initialOpenedWindows to id of every window
@@ -60,5 +65,7 @@ tell application "Terminal"
 end tell
 
 EOD
+
+    success "Finished changing the Terminal theme to Base16 Ocean."
 
 fi
