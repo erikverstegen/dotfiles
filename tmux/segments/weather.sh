@@ -94,7 +94,7 @@ if [ "$?" -eq 0 ]; then
     sunrise=$(date -jf "%Y-%m-%dT%H:%M:%S" "$(echo "$weather_data" | grep -Zo "<sun [^<>]*>" | sed 's/.*rise="\([^"]*\)".*/\1/')" +%H%M)
     sunset=$(date -jf "%Y-%m-%dT%H:%M:%S" "$(echo "$weather_data" | grep -Zo "<sun [^<>]*>" | sed 's/.*set="\([^"]*\)".*/\1/')" +%H%M)
 
-    echo "$(get_condition_symbol $condition) ${temperature}°C" | tee -a $CACHE_FILE
+    echo "$(get_condition_symbol $condition) ${temperature}°C" | tee $CACHE_FILE
 elif [ -f $CACHE_FILE ]; then
     cat $CACHE_FILE
 
