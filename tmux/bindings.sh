@@ -6,7 +6,7 @@ bind C-a send-prefix
 # Reload configuration.
 bind r source-file ~/.tmux.conf \; display "tmux config reloaded"
 
-# Use VIM key bindings in copy mode.
+# Use Vim key bindings in copy mode.
 setw -g mode-keys vi
 
 unbind [
