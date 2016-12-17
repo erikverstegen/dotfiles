@@ -48,7 +48,7 @@ git_info() {
     # Test if we are in a Git repository.
     command git rev-parse --is-inside-work-tree &>/dev/null || return
 
-    echo " %F{246}on `git_dirty`%F{007}$vcs_info_msg_0_%F{246}`git_arrows`"
+    echo " %F{238}on `git_dirty`%F{007}$vcs_info_msg_0_%F{238}`git_arrows`"
 }
 
 # Display information about suspended jobs.
@@ -67,7 +67,7 @@ precmd() {
     print -Pn "\e]2; %~/ \a"
 
     # Display the information.
-    print -P "\n%F{117}%n@%m%F{246} in%F{007} ${PWD/#$HOME/~}`git_info``suspended_jobs`"
+    print -P "\n%F{075}%n@%m%F{238} in%F{007} ${PWD/#$HOME/~}`git_info``suspended_jobs`"
 }
 
-export PROMPT="%F{241}$%f "
+export PROMPT="%F{234}$%f "
