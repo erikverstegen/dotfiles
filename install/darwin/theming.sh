@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 # Install custom fonts.
-if [[ ! "$(ls ~/Library/Fonts | grep 'Roboto Mono Nerd Font Complete.ttf')" ]]; then
+if [[ ! "$(ls ~/Library/Fonts | grep 'Roboto Mono for Powerline.ttf')" ]]; then
     info "Installing Roboto Mono font..."
 
-    curl -fsLo "${HOME}/Library/Fonts/Roboto Mono Nerd Font Complete.ttf" https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/RobotoMono/complete/Roboto%20Mono%20Nerd%20Font%20Complete.ttf
+    curl -fsLo "${HOME}/Library/Fonts/Roboto Mono for Powerline.ttf" https://raw.githubusercontent.com/powerline/fonts/master/RobotoMono/Roboto%20Mono%20for%20Powerline.ttf
 
     success "Finished installing Roboto Mono font."
 fi
@@ -12,11 +12,11 @@ fi
 # Sleep for one second in order to get the font working in the Terminal.
 sleep 1
 
-# Test if the current Terminal theme is not Base16 Ocean.
-if [[ "$(defaults read com.apple.Terminal "Default Window Settings")" != "base16-ocean" ]]; then
-    info "Changing the Terminal theme to Base16 Ocean..."
+# Test if the current Terminal theme is not Quantum.
+if [[ "$(defaults read com.apple.Terminal "Default Window Settings")" != "quantum" ]]; then
+    info "Changing the Terminal theme to Quantum..."
 
-    # Change the Terminal theme to Base16 Ocean.
+    # Change the Terminal theme to Quantum.
     #
     # Credit: https://github.com/mathiasbynens/dotfiles/blob/master/.macos
     osascript <<EOD
@@ -27,7 +27,7 @@ tell application "Terminal"
     local allOpenedWindows
     local windowId
 
-    set themeName to "base16-ocean"
+    set themeName to "quantum"
 
     (* Store the IDs of all the open Terminal windows. *)
     set initialOpenedWindows to id of every window
@@ -66,7 +66,7 @@ end tell
 
 EOD
 
-    success "Finished changing the Terminal theme to Base16 Ocean."
+    success "Finished changing the Terminal theme to Quantum."
 fi
 
 # Turn off the brackets around the executed commands.

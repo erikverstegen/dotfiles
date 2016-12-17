@@ -30,5 +30,6 @@ install git
 install zsh
 install tmux
 install reattach-to-user-namespace
+install vim --with-override-system-vi
 
 success "Finished installing Homebrew packages."
