@@ -42,3 +42,13 @@ set autoread
 
 " Make backspace behave normally.
 set backspace=indent,eol,start
+
+" Be smart with indenting.
+set smartindent
+set autoindent
+
+" Highlight matching brackets.
+set showmatch
+
+" Hide the Vim mode in the command bar.
+set noshowmode

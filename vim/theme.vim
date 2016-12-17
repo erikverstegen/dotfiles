@@ -13,4 +13,4 @@ colorscheme quantum
 highlight EndOfBuffer ctermfg=bg
 
 " Customize the current line number color.
-highlight CursorLineNr ctermfg=117
+highlight CursorLineNr ctermfg=075
