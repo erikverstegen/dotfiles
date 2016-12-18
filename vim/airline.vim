@@ -1,8 +1,8 @@
 " Use Powerline fonts.
 let g:airline_powerline_fonts=1
 
-" Set the Airline theme to Quantum.
-let g:airline_theme="quantum"
+" Set the Airline theme to Base16.
+let g:airline_theme="base16"
 
 " Disable the pointy separators.
 let g:airline_right_sep=""

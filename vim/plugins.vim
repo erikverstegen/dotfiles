@@ -1,7 +1,8 @@
 call plug#begin('~/.vim/plugged')
 
-Plug 'tyrannicaltoucan/vim-quantum'
+Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
 Plug 'vim-scripts/gitignore'
 Plug 'airblade/vim-gitgutter'

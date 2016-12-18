@@ -9,8 +9,8 @@ set -g status-interval 5
 set -g status-bg default
 set -g status-fg colour255
 
-set -g status-left "#[fg=colour075,bold]♟ #S #(~/.dotfiles/tmux/segments/test.sh)"
-set -g status-right "#(bash ~/.dotfiles/tmux/segments/current_song.sh) #[fg=colour255,nobold]#(bash ~/.dotfiles/tmux/segments/weather.sh Mierlo,NL metric) %I:%M %p %d %b %Y #[fg=colour075,bold]#(whoami)"
+set -g status-left "#[fg=colour117,bold]♟ #S #(~/.dotfiles/tmux/segments/test.sh)"
+set -g status-right "#(bash ~/.dotfiles/tmux/segments/current_song.sh) #[fg=colour255,nobold]#(bash ~/.dotfiles/tmux/segments/weather.sh Mierlo,NL metric) %I:%M %p %d %b %Y #[fg=colour117,bold]#(whoami)"
 
 # Theme for the window tabs.
 set -g window-status-format "#[fg=colour241]#I #W"
