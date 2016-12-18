@@ -106,6 +106,7 @@ fi
 info "Creating the symbolic links..."
 
 link "tmux/.tmux.conf" ".tmux.conf"
+link "vim/autoload" ".vim/autoload"
 link "vim/.vimrc" ".vimrc"
 link "zsh/.zshrc" ".zshrc"
 
