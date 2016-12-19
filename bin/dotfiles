@@ -106,6 +106,7 @@ fi
 # Create the symbolic links.
 info "Creating the symbolic links..."
 
+link ".config/base16-shell/scripts/base16-ocean.sh" ".base16_theme"
 link "tmux/.tmux.conf" ".tmux.conf"
 link "vim/.vimrc" ".vimrc"
 link "zsh/.zshrc" ".zshrc"
