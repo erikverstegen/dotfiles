@@ -89,6 +89,7 @@ if ! $(git rev-parse --is-inside-work-tree &> /dev/null); then
     git fetch origin master
     git reset --hard FETCH_HEAD
     git clean -fd
+    git submodule update --init --recursive
 
     success "Finished initializing the Git repository."
 fi
