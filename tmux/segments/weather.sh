@@ -38,11 +38,11 @@ get_condition_symbol() {
 
         # Clear
         "800")
-            hour=$(date -u +%H)
+            hour=$(date -u +%H%M)
 
             # Display a moon after sunset and before sunrise, otherwise display
             # a sun.
-            if [ $hour -ge $sunrise -o $hour -le $sunset ]; then
+            if [ $hour -le $sunrise -o $hour -ge $sunset ]; then
                 echo "☾"
             else
                 echo "☼"
