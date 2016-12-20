@@ -21,6 +21,13 @@ link() {
     ln -fs "${HOME}/.dotfiles/${1}" "${HOME}/${2}"
 }
 
+# Ask for the administration password upfront.
+sudo -v
+
+# Keep-alive: update existing `sudo` time stamp until the dotfiles are
+# installed.
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
 # Download the dotfiles from the Git repository, if the directory does not
 # exist.
 if [[ ! -d "${HOME}/.dotfiles" ]]; then
