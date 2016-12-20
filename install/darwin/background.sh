@@ -8,10 +8,12 @@ if [[ ! -f "${HOME}/Pictures/Background.jpg" ]]; then
 
     # Download the background.
     curl -fsLo "${HOME}/Pictures/Background.jpg" https://farm2.staticflickr.com/1201/5124298941_6960dd7102_o_d.jpg
-    chflags hidden "${HOME}/Pictures/Background.jpg"
 
     # Set the background.
     osascript -e "tell application \"Finder\" to set desktop picture to \"${HOME}/Pictures/Background.jpg\" as POSIX file"
+
+    # Hide the background file.
+    chflags hidden "${HOME}/Pictures/Background.jpg"
 
     success "Finished changing the background picture."
 fi
