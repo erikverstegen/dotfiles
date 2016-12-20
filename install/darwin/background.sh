@@ -11,7 +11,7 @@ if [[ ! -f "${HOME}/Pictures/Background.jpg" ]]; then
     chflags hidden "${HOME}/Pictures/Background.jpg"
 
     # Set the background.
-    sqlite3 ~/Library/Application\ Support/Dock/desktoppicture.db "update data set value = '${HOME}/Pictures/Background.jpg'"
+    osascript -e "tell application \"Finder\" to set desktop picture to \"${HOME}/Pictures/Background.jpg\" as POSIX file"
 
     success "Finished changing the background picture."
 fi
