@@ -28,6 +28,21 @@ defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
 defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
 defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
 
+# Hide the Time Machine, and Volume icons from the menu bar.
+for domain in ~/Library/Preferences/ByHost/com.apple.systemuiserver.*; do
+	defaults write "${domain}" dontAutoLoad -array \
+		"/System/Library/CoreServices/Menu Extras/TimeMachine.menu" \
+		"/System/Library/CoreServices/Menu Extras/Volume.menu"
+done
+
+# Display the Bluetooth, AirPort, battery, user, and clock in the menu bar.
+defaults write com.apple.systemuiserver menuExtras -array \
+	"/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
+	"/System/Library/CoreServices/Menu Extras/AirPort.menu" \
+	"/System/Library/CoreServices/Menu Extras/Battery.menu" \
+    "/System/Library/CoreServices/Menu Extras/User.menu" \
+	"/System/Library/CoreServices/Menu Extras/Clock.menu"
+
 # --- SSD tweaks ---------------------------------------------------------------
 
 # Disable hibernation.
@@ -133,11 +148,15 @@ chflags nohidden ~/Library
 sudo chflags nohidden /Volumes
 
 # Expand the following File Info panes:
-# “General”, “Open with”, and “Sharing & Permissions”.
+# "General", "Open with", and "Sharing & Permissions".
 defaults write com.apple.finder FXInfoPanesExpanded -dict \
     General -bool true \
     OpenWith -bool true \
     Privileges -bool true
+
+# Open new Finder windows in the home directory.
+defaults write com.apple.finder NewWindowTarget -string "PfLo"
+defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}"
 
 # --- Dock and Dashboard -------------------------------------------------------
 
@@ -155,6 +174,9 @@ defaults write com.apple.dock minimize-to-application -bool true
 
 # Speed up Misson Control animations.
 defaults write com.apple.dock expose-animation-duration -float 0.1
+
+# Don’t automatically rearrange Spaces based on most recent use.
+defaults write com.apple.dock mru-spaces -bool false
 
 # Reset the Dock.
 defaults write com.apple.dock persistent-apps -array
@@ -232,11 +254,17 @@ defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebK
 defaults write com.apple.Safari WebKitJavaEnabled -bool false
 
 # Block pop-up windows.
-defaults write com.apple.Safari WebKitJavaScriptCanOpenWindowsAutomatically -bool false
 defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptCanOpenWindowsAutomatically -bool false
+defaults write com.apple.Safari WebKitJavaScriptCanOpenWindowsAutomatically -bool false
 
 # Enable “Do Not Track”.
 defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true
+
+# Deny use of location services.
+defaults write com.apple.Safari SafariGeolocationPermissionPolicy -int 0
+
+# Deny asking for notification permission.
+defaults write com.apple.Safari CanPromptForPushNotifications -bool false
 
 # Update extensions automatically.
 defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool true
@@ -275,8 +303,8 @@ defaults write com.apple.ActivityMonitor OpenMainWindow -bool true
 defaults write com.apple.ActivityMonitor ShowCategory -int 0
 
 # Sort Activity Monitor results by CPU usage.
-defaults write com.apple.ActivityMonitor SortColumn -string "CPUUsage"
 defaults write com.apple.ActivityMonitor SortDirection -int 0
+defaults write com.apple.ActivityMonitor SortColumn -string "CPUUsage"
 
 # --- App Store ----------------------------------------------------------------
 
@@ -319,42 +347,34 @@ defaults write com.apple.messageshelper.MessageController SOInputLineSettings -d
 
 # --- Google Chrome ------------------------------------------------------------
 
-###############################################################################
-# Google Chrome & Google Chrome Canary                                        #
-###############################################################################
-
 # Disable the all too sensitive backswipe on trackpads.
-defaults write com.google.Chrome.canary AppleEnableSwipeNavigateWithScrolls -bool false
 defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool false
 
 # Disable the all too sensitive backswipe on Magic Mouse.
-defaults write com.google.Chrome.canary AppleEnableMouseSwipeNavigateWithScrolls -bool false
 defaults write com.google.Chrome AppleEnableMouseSwipeNavigateWithScrolls -bool false
 
 # Use the system-native print preview dialog.
-defaults write com.google.Chrome.canary DisablePrintPreview -bool true
 defaults write com.google.Chrome DisablePrintPreview -bool true
 
 # Expand the print dialog by default.
-defaults write com.google.Chrome.canary PMPrintingExpandedStateForPrint2 -bool true
 defaults write com.google.Chrome PMPrintingExpandedStateForPrint2 -bool true
 
 # --- Opera --------------------------------------------------------------------
 
 # Expand the print dialog by default.
-defaults write com.operasoftware.Opera PMPrintingExpandedStateForPrint2 -boolean true
 defaults write com.operasoftware.OperaDeveloper PMPrintingExpandedStateForPrint2 -boolean true
+defaults write com.operasoftware.Opera PMPrintingExpandedStateForPrint2 -boolean true
 
 # --- Tweetbot -----------------------------------------------------------------
 
-# Bypass the annoyingly slow t.co URL shortener
+# By-pass the annoyingly slow t.co URL shortener.
 defaults write com.tapbots.TweetbotMac OpenURLsDirectly -bool true
 
 # --- Kill affected applications -----------------------------------------------
 
 for app in "Activity Monitor" "cfprefsd" "Dock" "Finder" "Google Chrome" \
-        "Google Chrome Canary" "Mail" "Messages" "Opera" "Photos" "Safari" \
-        "SystemUIServer" "Tweetbot"; do
+           "Mail" "Messages" "Opera" "Photos" "Safari" "SystemUIServer" \
+           "Tweetbot"; do
 	killall "${app}" &>/dev/null
 done
 
