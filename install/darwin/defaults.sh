@@ -30,35 +30,18 @@ defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
 
 # Hide the Time Machine, and Volume icons from the menu bar.
 for domain in ~/Library/Preferences/ByHost/com.apple.systemuiserver.*; do
-	defaults write "${domain}" dontAutoLoad -array \
-		"/System/Library/CoreServices/Menu Extras/TimeMachine.menu" \
-		"/System/Library/CoreServices/Menu Extras/Volume.menu"
+    defaults write "${domain}" dontAutoLoad -array \
+        "/System/Library/CoreServices/Menu Extras/TimeMachine.menu" \
+        "/System/Library/CoreServices/Menu Extras/Volume.menu"
 done
 
 # Display the Bluetooth, AirPort, battery, user, and clock in the menu bar.
 defaults write com.apple.systemuiserver menuExtras -array \
-	"/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
-	"/System/Library/CoreServices/Menu Extras/AirPort.menu" \
-	"/System/Library/CoreServices/Menu Extras/Battery.menu" \
+    "/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
+    "/System/Library/CoreServices/Menu Extras/AirPort.menu" \
+    "/System/Library/CoreServices/Menu Extras/Battery.menu" \
     "/System/Library/CoreServices/Menu Extras/User.menu" \
-	"/System/Library/CoreServices/Menu Extras/Clock.menu"
-
-# --- SSD tweaks ---------------------------------------------------------------
-
-# Disable hibernation.
-sudo pmset -a hibernatemode 0
-
-# Remove the sleep image file to save disk space.
-sudo rm /private/var/vm/sleepimage
-
-# Create a zero-byte file instead...
-sudo touch /private/var/vm/sleepimage
-
-# ...and make sure it can't be rewritten.
-sudo chflags uchg /private/var/vm/sleepimage
-
-# Disable the sudden motion sensor as it’s not useful for SSDs.
-sudo pmset -a sms 0
+    "/System/Library/CoreServices/Menu Extras/Clock.menu"
 
 # --- Trackpad, mouse, keyboard, Bluetooth accessoires, and input --------------
 
