@@ -21,28 +21,6 @@ link() {
     ln -fs "${HOME}/.dotfiles/${1}" "${HOME}/${2}"
 }
 
-# Ask for the administration password upfront.
-sudo -v
-
-# Keep-alive: update existing `sudo` time stamp until the dotfiles are
-# installed.
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
-
-# Download the dotfiles from the Git repository, if the directory does not
-# exist.
-if [[ ! -d "${HOME}/.dotfiles" ]]; then
-    info "Downloading the dotfiles..."
-
-    mkdir -p "${HOME}/.dotfiles"
-    curl -fsSLo "${HOME}/.dotfiles.tar.gz" "https://github.com/erikverstegen/dotfiles/tarball/master"
-    tar -xf "${HOME}/.dotfiles.tar.gz" --strip-components 1 -C "${HOME}/.dotfiles"
-    rm -rf "${HOME}/.dotfiles.tar.gz"
-
-    success "Finished downloading the dotfiles."
-fi
-
-cd "${HOME}/.dotfiles"
-
 # Test for command line arguments.
 for arg in $@
 do
@@ -79,6 +57,28 @@ do
         ;;
     esac
 done
+
+# Ask for the administration password upfront.
+sudo -v
+
+# Keep-alive: update existing `sudo` time stamp until the dotfiles are
+# installed.
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+# Download the dotfiles from the Git repository, if the directory does not
+# exist.
+if [[ ! -d "${HOME}/.dotfiles" ]]; then
+    info "Downloading the dotfiles..."
+
+    mkdir -p "${HOME}/.dotfiles"
+    curl -fsSLo "${HOME}/.dotfiles.tar.gz" "https://github.com/erikverstegen/dotfiles/tarball/master"
+    tar -xf "${HOME}/.dotfiles.tar.gz" --strip-components 1 -C "${HOME}/.dotfiles"
+    rm -rf "${HOME}/.dotfiles.tar.gz"
+
+    success "Finished downloading the dotfiles."
+fi
+
+cd "${HOME}/.dotfiles"
 
 info "Installing the dotfiles..."
 
