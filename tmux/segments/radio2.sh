@@ -4,13 +4,17 @@ TOP2000_FILE="/var/tmp/top2000-$(date +%Y)"
 TOP2000=false
 
 # Download this year's Top 2000 list.
-if [ ! -f $TOP2000_FILE ]; then
+if [ ! -f $TOP2000_FILE -a $(date +%m) == 12 ]; then
     curl -fsLo $TOP2000_FILE "http://www.nporadio2.nl/index.php?option=com_ajax&plugin=Top2000&format=json&year=$(date +%Y)&npo_cc_skip_wall=1"
+
+    if [ $(stat -f%z $TOP2000_FILE) -le 500 ]; then
+        rm -f $TOP2000_FILE
+    fi
 fi
 
 current_date=$(date +%m%d)
 
-if [ $current_date -ge 2225 -a $current_date -le 2231 ]; then
+if [ $current_date -ge 1225 -a $current_date -le 1231 ]; then
     TOP2000=true
 fi
 
