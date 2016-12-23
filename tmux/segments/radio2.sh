@@ -10,7 +10,7 @@ fi
 
 current_date=$(date +%m%d)
 
-if [ $current_date -ge 2225 -a $current_date -le 2231  ]; then
+if [ $current_date -ge 2225 -a $current_date -le 2231 ]; then
     TOP2000=true
 fi
 
