@@ -36,8 +36,8 @@ do
 
             printf "Documentation can be found at https://github.com/erikverstegen/dotfiles.\n\n"
 
-            printf "Copyright (c) Erik Verstegen\n"
-            printf "Licensed under the MIT license\n"
+            printf "Copyright (c) Erik Verstegen.\n"
+            printf "Licensed under the terms of the MIT license.\n"
 
             exit 0
         ;;
