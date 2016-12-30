@@ -10,6 +10,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tpope/vim-fugitive'
 Plug 'mattn/emmet-vim'
 Plug 'gregsexton/MatchTag'
+Plug 'editorconfig/editorconfig-vim'
 
 " Syntax
 Plug 'othree/yajs.vim'
