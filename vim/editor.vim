@@ -10,6 +10,9 @@ set cursorline
 " Turn off line wrapping.
 set nowrap
 
+" Prevent line wrapping while typing.
+set formatoptions-=t
+
 " Set custom invisible characters.
 set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮,trail:·
 

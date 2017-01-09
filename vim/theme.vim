@@ -24,3 +24,29 @@ highlight SignColumn ctermbg=bg
 
 " Make the invisibles less pronounced.
 highlight NonText ctermfg=240
+
+" Improve PHP syntax highlighting.
+function! PhpSyntaxOverride()
+    hi! def link phpType phpKeyword
+    hi! def link phpInclude phpKeyword
+    hi! def link phpClassExtends String
+    hi! def link phpClassImplements String
+    hi! def link phpClass Type
+    hi! def link phpMethods Type
+    hi! def link phpFunction Function
+    hi! def link phpVarSelector phpIdentifier
+    hi! def link phpFunctionTypeHint Type
+
+    hi! def link phpDocTags phpKeyword
+    hi! def link phpDocRealTags phpKeyword
+    hi! def link phpDocRealParam Type
+    hi! def link phpDocIdentifier phpIdentifier
+
+    syn match phpDocRealTags "@\%(param\|return\|throws\|var\)" containedin=phpDocComment nextgroup=phpDocRealParam skipwhite
+    syn match phpDocRealParam "\s\+\zs\%(\S*|\?\)\+" nextgroup=phpDocIdentifier skipwhite
+endfunction
+
+augroup phpSyntaxOverride
+    autocmd!
+    autocmd FileType php call PhpSyntaxOverride()
+augroup END
