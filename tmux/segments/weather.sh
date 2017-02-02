@@ -1,44 +1,42 @@
 #!/usr/bin/env bash
 
-# Cache expiry time in seconds.
 CACHE_PERIOD=600
 CACHE_FILE="/var/tmp/weather"
-CITY="$1"
-UNIT="$2"
-
-# Test if the OpenWeatherMap API is available.
-if ! $(ping -qc 1 -t 1 api.openweathermap.org &>/dev/null); then
-    exit 1
-fi
+COUNTRY="$1"
+CITY="$2"
 
 # Display a symbol for the different weather conditions.
-# Available conditions: http://openweathermap.org/weather-conditions
+# Available conditions: https://www.wunderground.com/weather/api/d/docs?d=resources/icon-sets
 get_condition_symbol() {
     case $1 in
         # Thunderstorm
-        "200"|"201"|"202"|"210"|"211"|"212"|"221"|"230"|"231"|"232")
+        "chancetstorms"|"tstorms")
             echo "☈"
         ;;
 
-        # Drizzle and rain.
-        "300"|"301"|"302"|"310"|"311"|"312"|"313"|"314"|"231"| \
-        "500"|"501"|"502"|"503"|"504"|"511"|"520"|"521"|"522"|"531")
+        # Rain
+        "chancerain"|"chancesleet"|"rain"|"sleet")
             echo "☂"
         ;;
 
         # Snow
-        "600"|"601"|"602"|"611"|"612"|"615"|"616"|"620"|"621"|"622")
+        "chanceflurries"|"chancesnow"|"flurries"|"snow")
             echo "❅"
         ;;
 
         # Atmosphere
-        "701"|"711"|"721"|"731"|"741"|"751"|"761"|"762"|"771"|"781")
+        "fog"|"hazy")
             echo "〰"
         ;;
 
+        # Sunny
+        "sunny")
+            echo "☼"
+        ;;
+
         # Clear
-        "800")
-            hour=$(date -u +%H%M)
+        "clear")
+            hour=$(date +%H%M)
 
             # Display a moon after sunset and before sunrise, otherwise display
             # a sun.
@@ -50,7 +48,7 @@ get_condition_symbol() {
         ;;
 
         # Clouds
-        "801"|"802"|"803"|"804")
+        "cloudy"|"mostlycloudy"|"mostlysunny"|"partlycloudy"|"partlysunny")
             echo "☁"
         ;;
 
@@ -78,23 +76,30 @@ if [ -f $CACHE_FILE ]; then
 fi
 
 # Get the weather data.
-weather_data=$(curl --max-time 4 -s "http://api.openweathermap.org/data/2.5/weather?q=${CITY}&units=${UNIT}&mode=xml&appid=${WEATHER_APP_ID}")
+weather_data=$(curl --max-time 4 -s "http://api.wunderground.com/api/${WEATHER_APP_ID}/conditions/astronomy/q/${COUNTRY}/${CITY}.json")
 
 if [ "$?" -eq 0 ]; then
     # Get the temperature.
-    # <temperature value="8.44" min="7" max="10" unit="metric">
-    temperature=$(echo "$weather_data" | grep -Zo "<temperature [^<>]*>" | sed 's/.*value="\([^"]*\)".*/\1/')
+    # "temp_c":9.8
+    temperature=$(echo $weather_data | sed 's/.*"temp_c":\([^"]*\),.*/\1/')
 
-    # Get the weather condition.
-    # <weather number="701" value="mist" icon="50n">
-    condition=$(echo "$weather_data" | grep -Zo "<weather [^<>]*>" | sed 's/.*number="\([^"]*\)".*/\1/')
+    # Get the current weather condition.
+    # "icon":"mostlycloudy"
+    condition=$(echo $weather_data | sed 's/.*"icon":"\([^"]*\)".*/\1/')
 
-    # Get the sunrise and sunset times.
-    # <sun rise="2016-12-14T07:36:24" set="2016-12-14T15:28:55">
-    sunrise=$(date -jf "%Y-%m-%dT%H:%M:%S" "$(echo "$weather_data" | grep -Zo "<sun [^<>]*>" | sed 's/.*rise="\([^"]*\)".*/\1/')" +%H%M)
-    sunset=$(date -jf "%Y-%m-%dT%H:%M:%S" "$(echo "$weather_data" | grep -Zo "<sun [^<>]*>" | sed 's/.*set="\([^"]*\)".*/\1/')" +%H%M)
+    # Get the sunrise time.
+    # "sunrise": { "hour":"8", "minute":"29" }
+    sunrise_hour=$(echo $weather_data | sed 's/.*"sunrise": {\([^}]*\)}.*/\1/' | sed 's/.*"hour":"\([^"]*\)".*/\1/')
+    sunrise_minute=$(echo $weather_data | sed 's/.*"sunrise": {\([^}]*\)}.*/\1/' | sed 's/.*"minute":"\([^"]*\)".*/\1/')
+    sunrise=$(date -jf "%H:%M" "${sunrise_hour}:${sunrise_minute}" +%H%M)
 
-    echo "$(get_condition_symbol $condition) ${temperature}°C" | tee $CACHE_FILE
+    # Get the sunset time.
+    # "sunset": { "hour":"17", "minute":"29" }
+    sunset_hour=$(echo $weather_data | sed 's/.*"sunset": {\([^}]*\)}.*/\1/' | sed 's/.*"hour":"\([^"]*\)".*/\1/')
+    sunset_minute=$(echo $weather_data | sed 's/.*"sunset": {\([^}]*\)}.*/\1/' | sed 's/.*"minute":"\([^"]*\)".*/\1/')
+    sunset=$(date -jf "%H:%M" "${sunset_hour}:${sunset_minute}" +%H%M)
+
+    echo "$(get_condition_symbol $condition) $(printf "%.0f" $temperature)°C" | tee $CACHE_FILE
 elif [ -f $CACHE_FILE ]; then
     cat $CACHE_FILE
 
