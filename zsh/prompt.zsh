@@ -62,10 +62,6 @@ suspended_jobs() {
 precmd() {
     vcs_info
 
-    # Make the macOS terminal remember the current directory when opening a new
-    # tab.
-    print -Pn "\e]2; %~/ \a"
-
     # Display the information.
     print -P "\n%F{117}%n@%m%F{246} in%F{007} ${PWD/#$HOME/~}`git_info``suspended_jobs`"
 }
