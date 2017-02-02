@@ -2,8 +2,6 @@
 
 CACHE_PERIOD=600
 CACHE_FILE="/var/tmp/weather"
-COUNTRY="$1"
-CITY="$2"
 
 # Display a symbol for the different weather conditions.
 # Available conditions: https://www.wunderground.com/weather/api/d/docs?d=resources/icon-sets
@@ -76,7 +74,7 @@ if [ -f $CACHE_FILE ]; then
 fi
 
 # Get the weather data.
-weather_data=$(curl --max-time 4 -s "http://api.wunderground.com/api/${WEATHER_APP_ID}/conditions/astronomy/q/${COUNTRY}/${CITY}.json")
+weather_data=$(curl --max-time 4 -s "http://api.wunderground.com/api/${WEATHER_APP_ID}/conditions/astronomy/q/${WEATHER_COUNTRY}/${WEATHER_CITY}.json")
 
 if [ "$?" -eq 0 ]; then
     # Get the temperature.
