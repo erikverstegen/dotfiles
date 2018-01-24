@@ -1,4 +1,4 @@
-# Dotfiles
+# .dotfiles
 
 My personal configuration for macOS.
 

@@ -1,20 +1,24 @@
 #!/usr/bin/env bash
 
 info() {
-    printf "\33[34m${1}\33[0m\n"
+    if [[ ! $quiet ]]; then
+        printf "\33[34m${1}\33[0m\n"
+    fi
 }
 
 success() {
-    printf "\33[32m${1}\33[0m\n"
+    if [[ ! $quiet ]]; then
+        printf "\33[32m${1}\33[0m\n"
+    fi
 }
 
 error() {
-    printf "\33[31mError: ${1}\33[0m\n"
+    printf "\33[31m${1}\33[0m\n"
 }
 
 # Creates or replaces a symbolic link.
 link() {
-    ln -fs "${HOME}/.dotfiles/${1}" "${HOME}/${2}"
+    ln -fs "${HOME}/.dotfiles/${1}" "${HOME}/${2}" &>/dev/null
 }
 
 # Test for command line arguments.
@@ -23,18 +27,23 @@ do
     case $arg in
         -h|--help)
             printf "Usage:\n"
-            printf "  $(basename "$0") [options]\n\n"
-
+            printf "  $(basename "$0") [options]\n"
+            printf "\n"
             printf "Options:\n"
             printf "  -h, --help    Display this help information.\n"
+            printf "  -q, --quiet   Don't display output, except for errors.\n"
             printf "      --no-sync Don't sync with the remote repository.\n"
-
-            printf "Documentation can be found at https://github.com/erikverstegen/dotfiles.\n\n"
-
+            printf "\n"
+            printf "Documentation can be found at https://github.com/erikverstegen/dotfiles.\n"
+            printf "\n"
             printf "Copyright (c) Erik Verstegen.\n"
             printf "Licensed under the terms of the MIT license.\n"
 
             exit 0
+        ;;
+
+        -q|--quiet)
+            quiet=true
         ;;
 
         --no-sync)
@@ -49,22 +58,22 @@ do
     esac
 done
 
-# Download the dotfiles from the Git repository, if the directory does not
+# Download the .dotfiles from the Git repository, if the directory does not
 # exist.
 if [[ ! -d "${HOME}/.dotfiles" ]]; then
-    info "Downloading the dotfiles..."
+    info "Downloading the .dotfiles..."
 
-    mkdir -p "${HOME}/.dotfiles"
-    curl -fsSLo "${HOME}/.dotfiles.tar.gz" "https://github.com/erikverstegen/dotfiles/tarball/master"
-    tar -xf "${HOME}/.dotfiles.tar.gz" --strip-components 1 -C "${HOME}/.dotfiles"
-    rm -rf "${HOME}/.dotfiles.tar.gz"
-
-    success "Finished downloading the dotfiles."
+    {
+        mkdir -p "${HOME}/.dotfiles";
+        curl -fsSLo "${HOME}/.dotfiles.tar.gz" "https://github.com/erikverstegen/dotfiles/tarball/master";
+        tar -xf "${HOME}/.dotfiles.tar.gz" --strip-components 1 -C "${HOME}/.dotfiles";
+        rm -rf "${HOME}/.dotfiles.tar.gz";
+    } &>/dev/null
 fi
 
 cd "${HOME}/.dotfiles"
 
-info "Installing the dotfiles..."
+info "Installing the .dotfiles..."
 
 # Install the Xcode Command Line Tools when running on macOS.
 if [[ "$(uname)" == "Darwin" ]]; then
@@ -72,55 +81,48 @@ if [[ "$(uname)" == "Darwin" ]]; then
 fi
 
 # Initialize the Git repository if necessary.
-if ! $(git rev-parse --is-inside-work-tree &> /dev/null); then
+if ! $(git rev-parse --is-inside-work-tree &>/dev/null); then
     info "Initializing the Git repository..."
 
-    git init
-    git remote add origin "https://github.com/erikverstegen/dotfiles.git"
-    git fetch origin master
-    git reset --hard FETCH_HEAD
-    git clean -fd
-    git submodule update --init --recursive
-
-    success "Finished initializing the Git repository."
+    {
+        git init;
+        git remote add origin "https://github.com/erikverstegen/dotfiles.git";
+        git fetch origin master;
+        git reset --hard FETCH_HEAD;
+        git clean -fd;
+        git submodule update --init --recursive;
+    } &>/dev/null
 fi
 
 # Pull from the remote Git repository.
-if [[ ! $no_sync ]]; then
+if ! $no_sync; then
     info "Syncing with the remote Git repository..."
 
-    git pull -qr origin master
-
-    success "Finished syncing with the remote Git repository."
+    git pull -qr origin master &>/dev/null
 fi
 
 # Create the symbolic links.
 info "Creating the symbolic links..."
 
-link ".config/base16-shell/scripts/base16-ocean.sh" ".base16_theme"
 link "tmux/.tmux.conf" ".tmux.conf"
 link "vim/.vimrc" ".vimrc"
 link "zsh/.zshrc" ".zshrc"
-
-success "Finished creating the symbolic links."
 
 # Download `vim-plug`.
 if [[ ! -f ~/.vim/autoload/plug.vim ]]; then
     info "Downloading \"vim-plug\"..."
 
-    curl -fsLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-    success "Finished downloading \"vim-plug\"."
+    curl -fsLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim &>/dev/null
 fi
 
 # Install Vim plugins.
 if [[ ! -d ~/.vim/plugged ]]; then
     info "Installing Vim plugins..."
-
-    yes "" | vim +PlugInstall +qall &>/dev/null
-
-    success "Finished installing Vim plugins."
+else
+    info "Updating Vim plugins..."
 fi
+
+yes "" | vim +PlugInstall +qall &>/dev/null
 
 # Test whether the user is running a supported operating system.
 if [ -f "./install/$(uname).sh" ]; then
@@ -138,17 +140,10 @@ if [ ! "$SHELL" == "$(which zsh)" ]; then
     if [[ "$(uname)" == "Darwin" && ! "$(cat /etc/shells | grep $(which zsh))" ]]; then
         info "Adding \"$(which zsh)\" to \"/etc/shells\"..."
 
-        command -v zsh | sudo tee -a /etc/shells &> /dev/null
-
-        success "Finished adding \"$(which zsh)\" to \"/etc/shells\"."
+        command -v zsh | sudo tee -a /etc/shells &>/dev/null
     fi
 
     chsh -s $(which zsh)
-
-    success "Finished changing the shell to Zsh."
 fi
 
-success "Finished installing the dotfiles."
-
-# Return to the original directory.
-cd $OLDPWD
+success "Finished installing the .dotfiles."
