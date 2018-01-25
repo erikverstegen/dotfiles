@@ -7,7 +7,7 @@ set -g status-interval 1
 
 # Theme for the status line.
 set -g status-bg default
-set -g status-fg colour255
+set -g status-fg colour251
 
 set -g status-left "#[fg=colour004,bold]#S "
 set -g status-right "#[fg=colour246]#(bash ~/.dotfiles/tmux/segments/current_song.sh) #[fg=colour251,nobold]#(bash ~/.dotfiles/tmux/segments/git.sh)#[fg=colour251,nobold]%I:%M %p #[fg=colour004,bold]#(whoami)"
@@ -18,4 +18,4 @@ set -g window-status-current-format "#[fg=colour251,bold]#I #W"
 
 # Theme for the pane borders.
 set -g pane-border-style fg=colour246
-set -g pane-active-border-style fg=colour075
+set -g pane-active-border-style fg=colour004
