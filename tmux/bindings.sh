@@ -4,16 +4,7 @@ set -g prefix C-a
 bind C-a send-prefix
 
 # Reload configuration.
-bind r source-file ~/.tmux.conf \; display "tmux config reloaded"
-
-# Use Vim key bindings in copy mode.
-setw -g mode-keys vi
-
-unbind [
-bind Escape copy-mode
-
-bind-key -t vi-copy 'v' begin-selection
-bind-key -t vi-copy 'y' copy-pipe "reattach-to-user-namespace pbcopy"
+bind r source-file ~/.tmux.conf
 
 # Easier window splitting.
 bind | split-window -h

@@ -4,6 +4,9 @@ export EDITOR="vim"
 # Enable colors on the macOS terminal.
 export CLICOLOR=1
 
+# Set the colors for the `ls` command.
+export LSCOLORS=ExFxBxDxCxegedabagacad
+
 # Set the PATH variable.
 export PATH=/usr/local/bin:$PATH
 

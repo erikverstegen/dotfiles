@@ -17,7 +17,7 @@ repeat with app_name in app_names
                     set artist_name to artist of current track
                     set track_name to name of current track
 
-                    return "#[fg=colour246]♫ " & track_name & " - #[bold]" & artist_name
+                    return "♫ " & track_name & " - #[bold]" & artist_name
                 end if
             end using terms from
         end tell
