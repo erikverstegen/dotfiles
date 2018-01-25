@@ -1,3 +1,6 @@
+# Enable 24-bit colors.
+set-option -ga terminal-overrides ",xterm-256color:Tc"
+
 # Change the status line length.
 set -g status-right-length 150
 set -g status-left-length 32
