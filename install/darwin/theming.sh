@@ -3,7 +3,7 @@
 # Copy the typefaces to the "Fonts" folder.
 info "Copying typefaces..."
 
-if ! test -n "$(find ~/Library/Fonts -name 'SF Mono*.otf')"; then
+if ! test -n "$(find ~/Library/Fonts -name 'SFMono*.otf')"; then
     for file in $(find /Applications/Utilities/Terminal.app/Contents/Resources/Fonts -name 'SFMono*.otf'); do
         cp $file ~/Library/Fonts
     done
