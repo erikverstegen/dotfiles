@@ -73,6 +73,13 @@ fi
 
 cd "${HOME}/.dotfiles"
 
+# Test whether the user is running a supported operating system.
+if [ ! -f "./install/$(uname).sh" ]; then
+    error "Running on an unsupported operating system ($(uname)). Aborting."
+
+    exit 1
+fi
+
 info "Installing the .dotfiles..."
 
 # Install the Xcode Command Line Tools when running on macOS.
@@ -124,14 +131,8 @@ fi
 
 yes "" | vim +PlugInstall +qall &>/dev/null
 
-# Test whether the user is running a supported operating system.
-if [ -f "./install/$(uname).sh" ]; then
-    source ./install/$(uname).sh
-else
-    error "Running on an unsupported operating system ($(uname)). Aborting."
-
-    exit 1
-fi
+# Run the OS-related scripts.
+source ./install/$(uname).sh
 
 # Change the shell to Zsh.
 if [ ! "$SHELL" == "$(which zsh)" ]; then
