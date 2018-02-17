@@ -125,11 +125,13 @@ fi
 # Install Vim plugins.
 if [[ ! -d ~/.vim/plugged ]]; then
     info "Installing Vim plugins..."
+
+    vim +PlugInstall +qall &>/dev/null
 else
     info "Updating Vim plugins..."
-fi
 
-yes "" | vim +PlugInstall +qall &>/dev/null
+    vim +PlugUpdate +qall &>/dev/null
+fi
 
 # Run the OS-related scripts.
 source ./install/$(uname).sh
