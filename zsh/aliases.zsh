@@ -17,3 +17,6 @@ alias reload="source ${HOME}/.zshrc"
 
 # Better `tree`.
 alias tree="tree -aC -I '.git|node_modules|.DS_Store' --dirsfirst"
+
+# Alias `nvim` to `vim`.
+alias vim="nvim"

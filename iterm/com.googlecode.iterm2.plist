@@ -358,7 +358,7 @@
 	<key>NSFontPanelAttributes</key>
 	<string>1, 4</string>
 	<key>NSNavLastRootDirectory</key>
-	<string>~/.dotfiles/iterm2</string>
+	<string>~/.dotfiles/iterm</string>
 	<key>NSNavPanelExpandedSizeForOpenMode</key>
 	<string>{712, 448}</string>
 	<key>NSQuotedKeystrokeBinding</key>
@@ -404,9 +404,9 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>410 370 620 392 0 0 1440 877 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>302 474 918 381 0 0 1440 878 </string>
+	<string>302 343 918 512 0 0 1440 878 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>164 124 1046 590 0 0 1440 878 </string>
+	<string>171 177 1046 566 0 0 1440 878 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>176 101 1046 566 0 0 1440 878 </string>
 	<key>New Bookmarks</key>
@@ -697,7 +697,7 @@
 			<key>Custom Command</key>
 			<string>No</string>
 			<key>Custom Directory</key>
-			<string>Recycle</string>
+			<string>No</string>
 			<key>Default Bookmark</key>
 			<string>No</string>
 			<key>Disable Printing</key>
@@ -1039,7 +1039,7 @@
 			<key>Mouse Reporting</key>
 			<true/>
 			<key>Name</key>
-			<string></string>
+			<string>Default</string>
 			<key>Non Ascii Font</key>
 			<string>SFMono-Regular 12</string>
 			<key>Non-ASCII Anti Aliased</key>
@@ -1296,7 +1296,7 @@
 		</dict>
 	</dict>
 	<key>PrefsCustomFolder</key>
-	<string>/Users/erikverstegen/.dotfiles/iterm2</string>
+	<string>/Users/erikverstegen/.dotfiles/iterm</string>
 	<key>PromptOnQuit</key>
 	<false/>
 	<key>QuitWhenAllWindowsClosed</key>

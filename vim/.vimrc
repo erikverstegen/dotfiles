@@ -1,9 +1,18 @@
-source ~/.dotfiles/vim/plugins.vim
-source ~/.dotfiles/vim/editor.vim
-source ~/.dotfiles/vim/search.vim
-source ~/.dotfiles/vim/mappings.vim
-source ~/.dotfiles/vim/commands.vim
-source ~/.dotfiles/vim/theme.vim
-source ~/.dotfiles/vim/airline.vim
-source ~/.dotfiles/vim/nerdtree.vim
-source ~/.dotfiles/vim/editorconfig.vim
+" Initialize the plugins.
+call plug#begin('~/.vim/plugged')
+
+Plug 'scrooloose/nerdtree'
+
+" Theming
+Plug 'joshdick/onedark.vim'
+Plug 'itchyny/lightline.vim'
+
+" Syntax
+Plug 'sheerun/vim-polyglot'
+
+call plug#end()
+
+" Load all the configuration files.
+for file in split(glob('~/.dotfiles/vim/config/*.vim'), '\n')
+    exec 'source' file
+endfor
