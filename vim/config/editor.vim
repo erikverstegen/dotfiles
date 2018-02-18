@@ -27,3 +27,8 @@ set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮,trail:·
 
 " Configure ignored files and directories.
 set wildignore=.git,node_modules,bower_components,.DS_Store
+
+" Turn off line wrapping.
+set wrapmargin=0
+set textwidth=0
+set nowrap

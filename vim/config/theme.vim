@@ -6,9 +6,15 @@ endif
 " Customize the color scheme.
 let s:colors = onedark#GetColors()
 
+autocmd ColorScheme * call onedark#set_highlight('NERDTreeGitStatusModified', { 'fg': s:colors.yellow })
+autocmd ColorScheme * call onedark#set_highlight('NERDTreeGitStatusAdded', { 'fg': s:colors.green })
 autocmd ColorScheme * call onedark#set_highlight('CursorLineNr', { 'fg': s:colors.white })
 autocmd ColorScheme * call onedark#set_highlight('EndOfBuffer', { 'fg': s:colors.black })
+autocmd ColorScheme * call onedark#set_highlight('NERDTreeDir', { 'fg': s:colors.white })
+autocmd ColorScheme * call onedark#set_highlight('NERDTreeCWD', { 'fg': s:colors.blue })
 autocmd ColorScheme * call onedark#set_highlight('VertSplit', { 'bg': s:colors.cursor_grey, 'fg': s:colors.cursor_grey })
+
+autocmd ColorScheme * call onedark#extend_highlight('NERDTreeCWD', { 'gui': 'bold' })
 
 " Set the color scheme to One Dark.
 colorscheme onedark
@@ -23,8 +29,8 @@ let s:purple = [ s:colors.purple.gui, s:colors.purple.cterm ]
 let s:white = [ s:colors.white.gui, s:colors.white.cterm ]
 let s:green = [ s:colors.green.gui, s:colors.green.cterm ]
 let s:black = [ s:colors.black.gui, s:colors.black.cterm ]
-let s:blue = [ s:colors.blue.gui, s:colors.blue.cterm ]
 let s:grey = [ s:colors.visual_grey.gui, s:colors.cursor_grey.cterm ]
+let s:blue = [ s:colors.blue.gui, s:colors.blue.cterm ]
 let s:red = [ s:colors.red.gui, s:colors.red.cterm ]
 
 " Create the color palette.
@@ -90,3 +96,11 @@ endfunction
 
 " Make sure only the cursor line number is visible.
 hi clear CursorLine
+
+" Make sure all the directory parts in NERDTree are the same color.
+hi link NERDTreeOpenable NERDTreeDir
+hi link NERDTreeClosable NERDTreeDir
+hi link NERDTreeDirSlash NERDTreeDir
+
+" Make the "change and delete" sign the same color as the "change" sign.
+hi link GitGutterChangeDelete GitGutterChange

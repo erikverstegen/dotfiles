@@ -8,6 +8,10 @@ autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isT
 " Toggle NERDTree with "ctrl + n"
 map <silent> <C-n> :NERDTreeToggle<CR>
 
+" Enable node colorization, and disable flags for the Git support.
+let g:NERDTreeGitStatusNodeColorization=1
+let g:NERDTreeGitStatusWithFlags=0
+
 " Hide the cursor line.
 let g:NERDTreeHighlightCursorline=0
 
