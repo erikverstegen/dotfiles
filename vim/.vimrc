@@ -3,6 +3,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'editorconfig/editorconfig-vim'
 Plug 'scrooloose/nerdtree'
+Plug 'yggdroot/indentline'
 
 Plug 'robinfehr/nerdtree-git-plugin' " Fork of Xuyuanp/nerdtree-git-plugin with
                                      " node coloring of files and directories.
