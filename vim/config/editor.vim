@@ -32,3 +32,9 @@ set wildignore=.git,node_modules,bower_components,.DS_Store
 set wrapmargin=0
 set textwidth=0
 set nowrap
+
+" Use soft tabs instead of hard tabs
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+set tabstop=4

@@ -2,16 +2,17 @@
 call plug#begin('~/.vim/plugged')
 
 Plug 'editorconfig/editorconfig-vim'
-Plug 'scrooloose/nerdtree'
-Plug 'yggdroot/indentline'
 
+" NERDTree
+Plug 'scrooloose/nerdtree'
 Plug 'robinfehr/nerdtree-git-plugin' " Fork of Xuyuanp/nerdtree-git-plugin with
                                      " node coloring of files and directories.
-Plug 'airblade/vim-gitgutter'
 
 " Theming
-Plug 'joshdick/onedark.vim'
+Plug 'airblade/vim-gitgutter'
 Plug 'itchyny/lightline.vim'
+Plug 'joshdick/onedark.vim'
+Plug 'yggdroot/indentline'
 
 " Syntax
 Plug 'sheerun/vim-polyglot'
