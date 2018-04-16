@@ -1,5 +1,5 @@
 " Set the leader to ",".
-let mapleader="\,"
+let mapleader='\,'
 
 " Move around the windows with "ctrl + h/j/k/l".
 map <silent> <C-h> <C-w>h

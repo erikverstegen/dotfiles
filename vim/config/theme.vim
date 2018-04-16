@@ -20,7 +20,6 @@ autocmd ColorScheme * call onedark#extend_highlight('NERDTreeCWD', { 'gui': 'bol
 colorscheme onedark
 
 " Create the Lightline theme.
-" Define the colors.
 let s:inactive_fg_grey = [ '#666f7c', s:colors.cursor_grey.cterm ]
 let s:inactive_grey = [ '#353b44', s:colors.cursor_grey.cterm ]
 let s:cursor_grey = [ s:colors.cursor_grey.gui, s:colors.cursor_grey.cterm ]
@@ -33,7 +32,6 @@ let s:grey = [ s:colors.visual_grey.gui, s:colors.cursor_grey.cterm ]
 let s:blue = [ s:colors.blue.gui, s:colors.blue.cterm ]
 let s:red = [ s:colors.red.gui, s:colors.red.cterm ]
 
-" Create the color palette.
 let s:p = { 'normal': {}, 'inactive': {}, 'insert': {}, 'replace': {}, 'visual': {}, 'tabline': {} }
 
 let s:p.normal.left = [ [ s:black, s:green ], [ s:white, s:grey ] ]
@@ -63,7 +61,7 @@ let s:p.tabline.right = [ [ s:white, s:grey ] ]
 let g:lightline#colorscheme#onedark#palette = lightline#colorscheme#flatten(s:p)
 
 " Configure the Lightline.
-let g:lightline = {
+let g:lightline={
     \ 'component_function': {
     \   'fileencoding': 'LightlineFileEncoding',
     \ },

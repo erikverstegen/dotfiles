@@ -1,4 +1,4 @@
-" Display the default mode indicator.
+" Display the default mode indicator, which is made redundant by the Lightline.
 set noshowmode
 
 " Turn on syntax highlighting.
@@ -10,14 +10,12 @@ set number
 " Highlight the current selected line.
 set cursorline
 
-" The amount of lines around the cursor.
+" The amount of lines around the cursor when scrolling.
 set scrolloff=3
-
-" Set the maximum width of text to 80 characters.
-set textwidth=80
 
 " Highlight a column to indicate the maximum width of text.
 set colorcolumn=81
+set textwidth=80
 
 " Turn on invisible characters.
 set list
@@ -26,7 +24,7 @@ set list
 set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮,trail:·
 
 " Configure ignored files and directories.
-set wildignore=.git,node_modules,bower_components,.DS_Store
+set wildignore=.git,vendor,node_modules,bower_components,.DS_Store
 
 " Turn off line wrapping.
 set wrapmargin=0
