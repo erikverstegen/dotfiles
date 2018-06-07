@@ -1,1 +1,0 @@
-setopt PROMPT_SUBST

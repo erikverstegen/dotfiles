@@ -95,7 +95,7 @@ endfunction
 " Make sure only the cursor line number is visible.
 hi clear CursorLine
 
-" Make sure all the directory parts in NERDTree are the same color.
+" Make sure all the directory parts in the NERDTree are the same color.
 hi link NERDTreeOpenable NERDTreeDir
 hi link NERDTreeClosable NERDTreeDir
 hi link NERDTreeDirSlash NERDTreeDir

@@ -19,7 +19,3 @@ export PATH=$DOTFILES/bin:$PATH
 if [[ -d ~/bin ]]; then
     export PATH=~/bin:$PATH
 fi
-
-# Set Go settings.
-export GOPATH=$HOME/Development/go
-export PATH=/usr/local/go/bin:$PATH

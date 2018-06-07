@@ -1,22 +1,15 @@
 # Clear terminal scroll-back.
-alias clear="clear && printf '\e[3J'"
+alias cls="clear && printf '\e[3J'"
 
-# Get the week number.
-alias week="date +%V"
+# Gets the IP addresses.
+alias ip="printf 'Public IP: '; dig +short myip.opendns.com @resolver1.opendns.com; printf 'Local IP: '; ipconfig getifaddr en0"
 
-# IP addresses.
-alias localip="ipconfig getifaddr en0"
-alias ips="ifconfig -a | perl -nle'/(\d+\.\d+\.\d+\.\d+)/ && print $1'"
-alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
-
-# Recursively find and delete all `.DS_Store` files in a directory.
+# Recursively find and delete all the `.DS_Store` files in a directory.
 alias cleanup="find . -name '*.DS_Store' -type f -ls -delete"
 
-# Reload Zsh configuration.
+# Reload the Zsh configuration.
 alias reload="source ${HOME}/.zshrc"
 
-# Better `tree`.
-alias tree="tree -aC -I '.git|node_modules|.DS_Store' --dirsfirst"
-
-# Alias `nvim` to `vim`.
-alias vim="nvim"
+# Remove unwanted folders and files (such as .git, node_modules) from the `tree`
+# command output.
+alias tree="tree -aC -I '.git|node_modules|vendor|var|.DS_Store' --dirsfirst"

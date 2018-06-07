@@ -11,6 +11,7 @@ set number
 set cursorline
 
 " The amount of lines around the cursor when scrolling.
+set sidescrolloff=3
 set scrolloff=3
 
 " Highlight a column to indicate the maximum width of text.
@@ -36,3 +37,6 @@ set softtabstop=4
 set shiftwidth=4
 set expandtab
 set tabstop=4
+
+" Remove the delay when switching between modes.
+set ttimeoutlen=50
