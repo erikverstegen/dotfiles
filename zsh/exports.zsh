@@ -8,14 +8,10 @@ export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 
 # Set the PATH variable.
+export PATH=$HOME/.dotfiles/bin
+export PATH=/usr/local/go/bin:$PATH
+export PATH=/usr/local/sbin:$PATH
 export PATH=/usr/local/bin:$PATH
-
-if [[ -d /usr/local/sbin ]]; then
-    export PATH=/usr/local/sbin:$PATH
-fi
-
-export PATH=$DOTFILES/bin:$PATH
-
-if [[ -d ~/bin ]]; then
-    export PATH=~/bin:$PATH
-fi
+export PATH=/usr/sbin:$PATH
+export PATH=/usr/bin:$PATH
+export PATH=/bin:$PATH
