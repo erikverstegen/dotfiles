@@ -40,3 +40,7 @@ set tabstop=4
 
 " Remove the delay when switching between modes.
 set ttimeoutlen=50
+
+" Make Vim scroll smoother.
+set ttyfast
+set lazyredraw
