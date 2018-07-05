@@ -1,5 +1,5 @@
 # Set common applications.
-export EDITOR="vim"
+export EDITOR="nvim"
 
 # Enable colors on the macOS terminal.
 export CLICOLOR=1
