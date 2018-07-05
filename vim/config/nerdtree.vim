@@ -3,7 +3,10 @@ autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
 
 " Close Vim when the NERDTree is the only window left.
-autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
+autocmd BufEnter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
+
+" Disable the invisible characters in the NERDTree.
+autocmd FileType nerdtree setlocal nolist
 
 " Toggle the NERDTree with `ctrl + n`.
 map <silent> <C-n> :NERDTreeToggle<CR>
