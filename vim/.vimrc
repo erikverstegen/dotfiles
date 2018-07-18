@@ -6,6 +6,12 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'yggdroot/indentline'
 
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-abolish'
+Plug 'gregsexton/MatchTag'
+
 " NERDTree
 Plug 'robinfehr/nerdtree-git-plugin'
 Plug 'scrooloose/nerdtree'

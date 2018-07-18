@@ -126,11 +126,11 @@ fi
 if [[ ! -d ~/.vim/plugged ]]; then
     info "Installing Vim plugins..."
 
-    vim +PlugInstall +qall &>/dev/null
+    nvim +PlugInstall +qall &>/dev/null
 else
     info "Updating Vim plugins..."
 
-    vim +PlugUpdate +qall &>/dev/null
+    nvim +PlugUpdate +qall &>/dev/null
 fi
 
 # Run the OS-related scripts.

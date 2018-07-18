@@ -8,7 +8,7 @@ map <silent> <C-k> <C-w>k
 map <silent> <C-l> <C-w>l
 
 " Turn off search highlighting with `, + esc`.
-nnoremap <Leader><Esc> :nohlsearch<CR>
+nnoremap <silent> <CR> :noh<CR><CR>
 
 " Resize buffers using `+` and `-`.
 map <silent> + :res +5<CR>
