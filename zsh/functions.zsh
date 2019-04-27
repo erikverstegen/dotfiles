@@ -12,3 +12,8 @@ function up() {
         cd $cd_str
     fi
 }
+
+# Access the Vagrant commands within Homestead.
+function homestead() {
+    ( cd ~/.homestead && vagrant $* )
+}
