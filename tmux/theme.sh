@@ -9,7 +9,7 @@ set -g status-left-length 32
 set -g status-interval 1
 
 # Theme for the status line.
-set -g status-bg default
+set -g status-bg black
 set -g status-fg colour251
 
 set -g status-left "#[fg=colour004,bold]#S "
