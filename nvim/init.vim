@@ -22,6 +22,6 @@ Plug 'sheerun/vim-polyglot'
 call plug#end()
 
 " Load all the configuration files.
-for file in split(glob('~/.dotfiles/vim/config/*.vim'), '\n')
+for file in split(glob('~/.dotfiles/nvim/config/*.vim'), '\n')
     exec 'source' file
 endfor

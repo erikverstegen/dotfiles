@@ -18,7 +18,7 @@ error() {
 
 # Creates or replaces a symbolic link.
 link() {
-    ln -fs "${HOME}/.dotfiles/${1}" "${HOME}/${2}" &>/dev/null
+    ln -fs "${HOME}/.dotfiles/${1}" $2 &>/dev/null
 }
 
 # Test for command line arguments.
@@ -111,24 +111,26 @@ fi
 # Create the symbolic links.
 info "Creating the symbolic links..."
 
-link "tmux/.tmux.conf" ".tmux.conf"
-link "vim/.vimrc" ".vimrc"
-link "zsh/.zshrc" ".zshrc"
+link "tmux/.tmux.conf" "$HOME/.tmux.conf"
+link "nvim/init.vim" "$HOME/.config/nvim/init.vim"
+link "zsh/.zshrc" "$HOME/.zshrc"
 
 # Download `vim-plug`.
-if [[ ! -f ~/.vim/autoload/plug.vim ]]; then
+VIM_PLUG_PATH="$HOME/.local/share/nvim/site/autoload/plug.vim"
+
+if [[ ! -f $VIM_PLUG_PATH ]]; then
     info "Downloading \"vim-plug\"..."
 
-    curl -fsLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim &>/dev/null
+    curl -fsLo $VIM_PLUG_PATH --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim &>/dev/null
 fi
 
-# Install Vim plugins.
+# Install or update Neovim plugins.
 if [[ ! -d ~/.vim/plugged ]]; then
-    info "Installing Vim plugins..."
+    info "Installing Neovim plugins..."
 
     nvim +PlugInstall +qall &>/dev/null
 else
-    info "Updating Vim plugins..."
+    info "Updating Neovim plugins..."
 
     nvim +PlugUpdate +qall &>/dev/null
 fi
