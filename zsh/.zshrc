@@ -9,3 +9,8 @@ done
 if [ -f "${HOME}/.localrc" ]; then
     source "${HOME}/.localrc"
 fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+
+source /Users/erikverstegen/.docker/init-zsh.sh || true # Added by Docker Desktop

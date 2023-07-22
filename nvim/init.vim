@@ -8,9 +8,8 @@ Plug 'yggdroot/indentline'
 
 Plug 'gregsexton/MatchTag'
 
-" NERDTree
-Plug 'robinfehr/nerdtree-git-plugin'
-Plug 'scrooloose/nerdtree'
+" File Explorer
+Plug 'kyazdani42/nvim-tree.lua'
 
 " Theming
 Plug 'itchyny/lightline.vim'
@@ -25,3 +24,77 @@ call plug#end()
 for file in split(glob('~/.dotfiles/nvim/config/*.vim'), '\n')
     exec 'source' file
 endfor
+
+lua <<EOF
+require'nvim-tree'.setup {
+    view = {
+        side = 'left',
+        width = 30,
+        auto_resize = true,
+        signcolumn = 'no',
+        mappings = {
+            -- custom_only = true,
+            list = {
+                { key = 'i', action = 'vsplit' },
+            },
+        },
+    },
+    renderer = {
+        highlight_git = true,
+        add_trailing = true,
+        indent_markers = {
+            enable = true,
+            icons = {
+                corner = '└── ',
+                edge   = '│   ',
+                item   = '├── ',
+                none   = '    ',
+            },
+        },
+        icons = {
+            show = {
+                file = false,
+                folder = true,
+                folder_arrow = false,
+                git = false,
+            },
+            glyphs = {
+                folder = {
+                    default = '▸',
+                    empty   = '▸',
+                    symlink = '▸',
+
+                    open         = '▾',
+                    empty_open   = '▾',
+                    symlink_open = '▾',
+                },
+            },
+        },
+        special_files = {},
+    },
+    filters = {
+        custom = {
+            '.git',
+            '.DS_Store',
+        },
+        exclude = {
+            '.gitignore',
+        },
+    },
+    actions = {
+        open_file = {
+            resize_window = true,
+        },
+    },
+}
+
+-- Quit Neovim if the file explorer is the last open buffer.
+vim.api.nvim_create_autocmd('BufEnter', {
+    nested = true,
+    callback = function()
+        if #vim.api.nvim_list_wins() == 1 and vim.api.nvim_buf_get_name(0):match('NvimTree_') ~= nil then
+            vim.cmd 'quit'
+        end
+    end
+})
+EOF

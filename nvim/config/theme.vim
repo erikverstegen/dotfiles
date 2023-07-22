@@ -6,15 +6,28 @@ endif
 " Customize the color scheme.
 let s:colors = onedark#GetColors()
 
-autocmd ColorScheme * call onedark#set_highlight('NERDTreeGitStatusModified', { 'fg': s:colors.yellow })
-autocmd ColorScheme * call onedark#set_highlight('NERDTreeGitStatusAdded', { 'fg': s:colors.green })
 autocmd ColorScheme * call onedark#set_highlight('CursorLineNr', { 'fg': s:colors.white })
 autocmd ColorScheme * call onedark#set_highlight('EndOfBuffer', { 'fg': s:colors.black })
-autocmd ColorScheme * call onedark#set_highlight('NERDTreeDir', { 'fg': s:colors.white })
-autocmd ColorScheme * call onedark#set_highlight('NERDTreeCWD', { 'fg': s:colors.blue })
 autocmd ColorScheme * call onedark#set_highlight('VertSplit', { 'bg': s:colors.cursor_grey, 'fg': s:colors.cursor_grey })
 
-autocmd ColorScheme * call onedark#extend_highlight('NERDTreeCWD', { 'gui': 'bold' })
+" Customize the `nvim-tree' colors.
+autocmd ColorScheme * call onedark#set_highlight('NvimTreeRootFolder', { 'fg': s:colors.blue })
+autocmd ColorScheme * call onedark#set_highlight('NvimTreeFolderName', { 'fg': s:colors.white })
+autocmd ColorScheme * call onedark#set_highlight('NvimTreeOpenedFolderName', { 'fg': s:colors.white })
+autocmd ColorScheme * call onedark#set_highlight('NvimTreeFolderIcon', { 'fg': s:colors.white })
+
+autocmd ColorScheme * call onedark#set_highlight('NvimTreeIndentMarker', { 'fg': s:colors.visual_grey })
+
+" NvimTreeGitDirty
+" NvimTreeGitStaged
+" NvimTreeGitMerge
+" NvimTreeGitRenamed
+" NvimTreeGitNew
+" NvimTreeGitDeleted
+autocmd ColorScheme * call onedark#set_highlight('NvimTreeGitDeleted', { 'fg': s:colors.red })
+autocmd ColorScheme * call onedark#set_highlight('NvimTreeGitNew', { 'fg': s:colors.green })
+autocmd ColorScheme * call onedark#set_highlight('NvimTreeGitDirty', { 'fg': s:colors.yellow })
+autocmd ColorScheme * call onedark#set_highlight('NvimTreeGitRenamed', { 'fg': s:colors.green })
 
 " Set the color scheme to One Dark.
 colorscheme onedark
@@ -68,12 +81,12 @@ let g:lightline={
     \ 'subseparator': { 'left': '', 'right': '' },
     \ 'colorscheme': 'onedark',
     \ 'component': {
-    \   'lineinfo': "%{&filetype ==# 'nerdtree' ? '' : line('.').'/'.line('$').':'.col('.')}",
-    \   'filename': "%{&filetype ==# 'nerdtree' ? '' : expand('%:M')}",
-    \   'modified': "%{&filetype ==# 'nerdtree' || !&modified ? '' : '+'}",
-    \   'filetype': "%{&filetype ==# 'nerdtree' ? '' : &ft}",
-    \   'paste': "%{&filetype ==# 'nerdtree' || !&paste ? '' : 'PASTE'}",
-    \   'mode': "%{&filetype ==# 'nerdtree' ? '' : lightline#mode()}",
+    \   'lineinfo': "%{&filetype ==# 'NvimTree' ? '' : line('.').'/'.line('$').':'.col('.')}",
+    \   'filename': "%{&filetype ==# 'NvimTree' ? '' : expand('%:M')}",
+    \   'modified': "%{&filetype ==# 'NvimTree' || !&modified ? '' : '+'}",
+    \   'filetype': "%{&filetype ==# 'NvimTree' ? '' : &ft}",
+    \   'paste': "%{&filetype ==# 'NvimTree' || !&paste ? '' : 'PASTE'}",
+    \   'mode': "%{&filetype ==# 'NvimTree' ? '' : lightline#mode()}",
     \ },
     \ 'inactive': {
     \   'right' : [ [ 'lineinfo' ], [ 'fileencoding', 'filetype' ] ],
@@ -85,7 +98,7 @@ let g:lightline={
     \ }
 
 function! LightlineFileEncoding()
-    if &filetype ==# 'nerdtree'
+    if &filetype ==# 'NvimTree'
         return ''
     endif
 
@@ -94,11 +107,3 @@ endfunction
 
 " Make sure only the cursor line number is visible.
 hi clear CursorLine
-
-" Make sure all the directory parts in the NERDTree are the same color.
-hi link NERDTreeOpenable NERDTreeDir
-hi link NERDTreeClosable NERDTreeDir
-hi link NERDTreeDirSlash NERDTreeDir
-
-" Make the "change and delete" sign the same color as the "change" sign.
-hi link GitGutterChangeDelete GitGutterChange

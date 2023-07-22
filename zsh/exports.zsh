@@ -9,6 +9,9 @@ export LSCOLORS=ExFxBxDxCxegedabagacad
 
 # Set the PATH variable.
 PATHS=(
+    "$HOME/Library/Python/3.9/bin"
+    "$HOME/.dotnet/tools"
+    "/opt/homebrew/bin"
     "/usr/local/bin"
     "/usr/bin"
     "/bin"
